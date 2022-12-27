@@ -12,4 +12,9 @@ class Auth extends CI_Controller
 	{
 		redirect('admin/dashboard');
 	}
+
+	public function logout()
+	{
+		redirect('login');
+	}
 }

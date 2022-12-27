@@ -38,6 +38,9 @@
                                     <div class="text-center">
                                         <h1 class="h2 text-gray-900 mb-4" style="font-weight: bold;">APLIKASI MONITORING PENANGANAN GANGGUAN</h1>
                                     </div>
+                                    <div class="text-center mb-5">
+                                        <img class="img-profile rounded-circle" width="50%" src="<?= base_url('assets/backend/img/login-bg.svg'); ?>">
+                                    </div>
                                     <form class="user" action="<?= base_url('auth/login'); ?>">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter Email Address...">
