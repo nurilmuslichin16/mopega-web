@@ -31,69 +31,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
-                            <td>
-                                <a href="#" data-toggle="modal" data-target="#followUpModal" class="btn btn-primary btn-circle btn-sm">
-                                    <i class="fab fa-telegram"></i>
-                                </a>
-                                &nbsp;
-                                <a href="<?= base_url('admin/gangguan/detail'); ?>" class="btn btn-info btn-circle btn-sm">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" onclick="hapus()" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Garrett Winters</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-                            <td>63</td>
-                            <td>2011/07/25</td>
-                            <td>$170,750</td>
-                            <td>
-                                <a href="#" data-toggle="modal" data-target="#followUpModal" class="btn btn-primary btn-circle btn-sm">
-                                    <i class="fab fa-telegram"></i>
-                                </a>
-                                &nbsp;
-                                <a href="<?= base_url('admin/gangguan/detail'); ?>" class="btn btn-info btn-circle btn-sm">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" onclick="hapus()" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Ashton Cox</td>
-                            <td>Junior Technical Author</td>
-                            <td>San Francisco</td>
-                            <td>66</td>
-                            <td>2009/01/12</td>
-                            <td>$86,000</td>
-                            <td>
-                                <a href="#" data-toggle="modal" data-target="#followUpModal" class="btn btn-primary btn-circle btn-sm">
-                                    <i class="fab fa-telegram"></i>
-                                </a>
-                                &nbsp;
-                                <a href="<?= base_url('admin/gangguan/detail'); ?>" class="btn btn-info btn-circle btn-sm">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" onclick="hapus()" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        <?php foreach ($listData as $data) : ?>
+                            <tr>
+                                <td><?= $data['tiket']; ?></td>
+                                <td><?= $data['no_internet'] ?? '-'; ?> / <?= $data['no_voice'] ?? '-'; ?></td>
+                                <td><?= tipe($data['tipe']); ?></td>
+                                <td><?= $data['report_date']; ?></td>
+                                <td><?= $data['expired']; ?></td>
+                                <td><?= status($data['status']); ?></td>
+                                <td>
+                                    <a href="#" data-toggle="modal" data-target="#followUpModal" class="btn btn-primary btn-circle btn-sm">
+                                        <i class="fab fa-telegram"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a href="<?= base_url('admin/gangguan/detail/' . $data['id_gangguan']); ?>" class="btn btn-info btn-circle btn-sm">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a href="#" onclick="hapus(<?= $data['id_gangguan']; ?>)" class="btn btn-danger btn-circle btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

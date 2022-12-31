@@ -116,6 +116,39 @@
             }
         })
     }
+
+    function save() {
+        $('#btnSave').text('saving...');
+        $('#btnSave').attr('disabled', true);
+
+        $.ajax({
+            url: "<?php echo site_url('admin/pelanggan/add') ?>",
+            type: "POST",
+            data: $('#formTambahDataPelanggan').serialize(),
+            dataType: "JSON",
+            success: function(data) {
+                if (data.status == 2) {
+                    window.location.replace("<?= site_url('petugas/datapasien/proses_redirect/2') ?>");
+                } else if (data.status == 3) {
+                    window.location.replace("<?= site_url('petugas/datapasien/proses_redirect/3') ?>");
+                } else {
+                    $.each(data.error, function(key, value) {
+                        if (value != "") {
+                            $('#' + key).addClass('inputerror');
+                            $('#' + key).parent().find('#error').text(value);
+                        }
+                    });
+                }
+                $('#btnSave').text('Tambah');
+                $('#btnSave').attr('disabled', false);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error pada ajax!');
+                $('#btnSave').text('Tambah');
+                $('#btnSave').attr('disabled', false);
+            }
+        });
+    }
 </script>
 
 <!-- Modal -->
