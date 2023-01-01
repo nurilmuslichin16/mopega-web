@@ -8,7 +8,7 @@ function tipe($data)
             break;
 
         case 'BGES / VPN IP':
-            return "<span class='badge badge-success'>Indihome</span>";
+            return "<span class='badge badge-success'>BGES / VPN IP</span>";
             break;
 
         default:

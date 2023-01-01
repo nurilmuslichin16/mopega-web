@@ -11,7 +11,7 @@
             <i class="fas fa-trash"></i>
         </a> untuk mengahpus data pelanggan.</p>
 
-    <a class="btn btn-primary mb-3 mr-2" href="" data-toggle="modal" data-target="#tambahDataPelanggan"><i class="fas fa-fw fa-plus"></i>&nbspTambah Data Pelanggan</a>
+    <a class="btn btn-primary mb-3 mr-2" href="#" onclick="add()"><i class="fas fa-fw fa-plus"></i>&nbspTambah Data Pelanggan</a>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -32,66 +32,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>$320,800</td>
-                            <td>
-                                <a href="<?= base_url('admin/pelanggan/detail'); ?>" class="btn btn-info btn-circle btn-sm">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" data-toggle="modal" data-target="#tambahDataPelanggan" class="btn btn-warning btn-circle btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" onclick="hapus()" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Garrett Winters</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-                            <td>63</td>
-                            <td>$170,750</td>
-                            <td>
-                                <a href="<?= base_url('admin/pelanggan/detail'); ?>" class="btn btn-info btn-circle btn-sm">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" data-toggle="modal" data-target="#tambahDataPelanggan" class="btn btn-warning btn-circle btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" onclick="hapus()" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Ashton Cox</td>
-                            <td>Junior Technical Author</td>
-                            <td>San Francisco</td>
-                            <td>66</td>
-                            <td>$86,000</td>
-                            <td>
-                                <a href="<?= base_url('admin/pelanggan/detail'); ?>" class="btn btn-info btn-circle btn-sm">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" data-toggle="modal" data-target="#tambahDataPelanggan" class="btn btn-warning btn-circle btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" onclick="hapus()" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        <?php foreach ($listData as $data) : ?>
+                            <tr>
+                                <td><?= $data['nama_pelanggan']; ?></td>
+                                <td><?= $data['no_internet']; ?> / <?= $data['no_voice']; ?></td>
+                                <td><?= $data['odp']; ?> - <?= $data['port']; ?></td>
+                                <td><?= tipe($data['tipe']); ?></td>
+                                <td><?= $data['sn_ont']; ?></td>
+                                <td>
+                                    <a href="<?= base_url('admin/pelanggan/detail/' . $data['id_pelanggan']); ?>" class="btn btn-info btn-circle btn-sm">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a href="#" onclick="edit(<?= $data['id_pelanggan']; ?>)" class="btn btn-warning btn-circle btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a href="#" onclick="hapus(<?= $data['id_pelanggan']; ?>)" class="btn btn-danger btn-circle btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -102,13 +64,29 @@
 <!-- /.container-fluid -->
 
 <script>
+    var method;
+
     $(document).ready(function() {
         $("#formTambahDataPelanggan").submit(function(e) {
             e.preventDefault();
         });
     });
 
-    function hapus() {
+    function add() {
+        $('#title_modal').text('Tambah Data Pelanggan');
+        $('#btnSave').text('Tambah');
+        $('#formTambahDataPelanggan')[0].reset();
+        $('input').removeClass('inputerror');
+        $('textarea').removeClass('inputerror');
+        $('select').removeClass('inputerror');
+        $('.form-group').find('#error').empty();
+
+        method = 'add';
+
+        $('#tambahDataPelanggan').modal('show');
+    }
+
+    function hapus(id_pelanggan) {
         Swal.fire({
             title: 'Yakin ingin menghapus data pelanggan?',
             showCancelButton: true,
@@ -123,12 +101,59 @@
         })
     }
 
+    function edit(id_pelanggan) {
+        $('#title_modal').text('Edit Data Pelanggan');
+        $('#btnSave').text('Ubah');
+        $('#formTambahDataPelanggan')[0].reset();
+        $('input').removeClass('inputerror');
+        $('textarea').removeClass('inputerror');
+        $('select').removeClass('inputerror');
+        $('.form-group').find('#error').empty();
+
+        method = 'edit';
+
+        $.ajax({
+            url: "<?= site_url('admin/pelanggan/getData'); ?>",
+            type: 'POST',
+            data: {
+                'id_pelanggan': id_pelanggan
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                $('#id_pelanggan').val(data.id_pelanggan);
+                $('#nama_pelanggan').val(data.nama_pelanggan);
+                $('#tipe').val(data.tipe);
+                $('#email').val(data.email);
+                $('#no_hp').val(data.no_hp);
+                $('#alamat').val(data.alamat);
+                $('#internet').val(data.no_internet);
+                $('#telepon').val(data.no_voice);
+                $('#odp').val(data.odp);
+                $('#port').val(data.port);
+                $('#sn').val(data.sn_ont);
+
+                $('#tambahDataPelanggan').modal('show');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error pada ajax!');
+                $('#btnSave').text('Tambah');
+                $('#btnSave').attr('disabled', false);
+            }
+        })
+    }
+
     function save() {
         $('#btnSave').text('saving...');
         $('#btnSave').attr('disabled', true);
 
+        if (method == 'add') {
+            url = "<?php echo site_url('admin/pelanggan/add') ?>";
+        } else {
+            url = "<?php echo site_url('admin/pelanggan/edit') ?>";
+        }
+
         $.ajax({
-            url: "<?php echo site_url('admin/pelanggan/add') ?>",
+            url: url,
             type: "POST",
             data: $('#formTambahDataPelanggan').serialize(),
             dataType: "JSON",
@@ -137,7 +162,7 @@
                 if (data.status == 2) {
                     Swal.fire(
                         'Sukses!',
-                        'Data Pelanggan berhasil ditambahkan.',
+                        method == 'add' ? 'Data Pelanggan berhasil ditambahkan.' : 'Data Pelanggan berhasil diubah.',
                         'success'
                     ).then(() => {
                         window.location.replace("<?= site_url('admin/pelanggan') ?>");
@@ -180,7 +205,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="tambahDataPelanggan">Tambah Data Pelanggan</h5>
+                <h5 class="modal-title" id="title_modal">Tambah Data Pelanggan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -189,6 +214,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-6">
+                            <input type="hidden" id="id_pelanggan" name="id_pelanggan">
                             <div class="form-group">
                                 <label for="nama_pelanggan">Nama Pelanggan</label>
                                 <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" placeholder="Nama Pelanggan *">
