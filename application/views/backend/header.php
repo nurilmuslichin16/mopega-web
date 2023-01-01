@@ -21,6 +21,7 @@
     <!-- Custom styles for this page -->
     <link href="<?= base_url('assets/backend/vendor/datatables/dataTables.bootstrap4.min.css'); ?>" rel="stylesheet">
 
+    <script src="<?= base_url('assets/backend/vendor/jquery/jquery.min.js'); ?>"></script>
 </head>
 
 <body id="page-top">

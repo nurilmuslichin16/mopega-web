@@ -4,6 +4,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Pelanggan extends CI_Controller
 {
 
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('model_pelanggan');
+	}
+
 	public function index()
 	{
 		$data['title']		= 'Data Pelanggan';
@@ -13,90 +19,65 @@ class Pelanggan extends CI_Controller
 		$this->load->view('backend/template', $data);
 	}
 
-	function add()
+	public function add()
 	{
 		$this->form_validation->set_rules('nama_pelanggan', 'Nama Pelanggan', 'required');
-		$this->form_validation->set_rules('tipe', 'Nama Pasien', 'required');
-		$this->form_validation->set_rules('email', 'Jenis Kelamin', 'required');
-		$this->form_validation->set_rules('no_hp', 'Tempat Lahir', 'required');
-		$this->form_validation->set_rules('alamat', 'Tanggal Lahir', 'required');
-		$this->form_validation->set_rules('internet', 'Agama', 'required|is_unique[tb_pelanggan.no_internet]', ['is_unique' => 'Internet sudah ada!']);
-		$this->form_validation->set_rules('telepon', 'Pendidikan Terakhir', 'required|is_unique[tb_pelanggan.no_voice]', ['is_unique' => 'Voice sudah ada!']);
-		$this->form_validation->set_rules('odp', 'Pekerjaan', 'required');
-		$this->form_validation->set_rules('port', 'Status Perkawinan', 'required');
-		$this->form_validation->set_rules('sn', 'Provinsi', 'required');
+		$this->form_validation->set_rules('tipe', 'Tipe', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required');
+		$this->form_validation->set_rules('no_hp', 'No HP', 'required');
+		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
+		$this->form_validation->set_rules('internet', 'Internet', 'required|is_unique[tb_pelanggan.no_internet]', ['is_unique' => 'Internet sudah ada!']);
+		$this->form_validation->set_rules('telepon', 'Telepon', 'required|is_unique[tb_pelanggan.no_voice]', ['is_unique' => 'Voice sudah ada!']);
+		$this->form_validation->set_rules('odp', 'ODP', 'required');
+		$this->form_validation->set_rules('port', 'Port', 'required');
+		$this->form_validation->set_rules('sn', 'SN', 'required');
 
 		if ($this->form_validation->run() == false) {
-			$response['error'] = array(
-				'nama_pelanggan'    => form_error('nama_pelanggan', ' ', ' '),
-				'tipe'              => form_error('tipe', ' ', ' '),
-				'email'             => form_error('email', ' ', ' '),
-				'no_hp'             => form_error('no_hp', ' ', ' '),
-				'alamat'            => form_error('alamat', ' ', ' '),
-				'internet'          => form_error('internet', ' ', ' '),
-				'telepon'           => form_error('telepon', ' ', ' '),
-				'odp'               => form_error('odp', ' ', ' '),
-				'port'              => form_error('port', ' ', ' '),
-				'sn'                => form_error('sn', ' ', ' ')
-			);
-
 			$response	= [
-				'status' => 1
+				'status' 	=> 1,
+				'error'		=> [
+					'nama_pelanggan'    => form_error('nama_pelanggan', ' ', ' '),
+					'tipe'              => form_error('tipe', ' ', ' '),
+					'email'             => form_error('email', ' ', ' '),
+					'no_hp'             => form_error('no_hp', ' ', ' '),
+					'alamat'            => form_error('alamat', ' ', ' '),
+					'internet'          => form_error('internet', ' ', ' '),
+					'telepon'           => form_error('telepon', ' ', ' '),
+					'odp'               => form_error('odp', ' ', ' '),
+					'port'              => form_error('port', ' ', ' '),
+					'sn'                => form_error('sn', ' ', ' ')
+				]
 			];
 
 			echo json_encode($response);
 		} else {
-			$pecah = explode("-", $this->input->post('tanggal_lahir'));
-			$tanggal = $pecah[2];
-			$bulan = $pecah[1];
-			$tahun = $pecah[0];
-			$password = $tanggal . $bulan . $tahun;
-
-			$tahunlahir = substr($pecah[0], 2);
-			$no_rm = $tahunlahir . '-' . date('i-s');
-
 			$data = [
-				'nik'               => $this->input->post('nik'),
-				'nama'              => $this->input->post('nama_pasien'),
-				'jekel'   	        => $this->input->post('jekel'),
-				'tempat_lahir'      => $this->input->post('tempat_lahir'),
-				'tanggal_lahir'     => $this->input->post('tanggal_lahir'),
-				'agama'      	    => $this->input->post('agama'),
-				'pendidikan'        => $this->input->post('pendidikan'),
-				'pekerjaan'   	    => $this->input->post('pekerjaan'),
-				'status_perkawinan' => $this->input->post('status_perkawinan'),
-				'prov'      	    => $this->input->post('prov'),
-				'kota_kab'          => $this->input->post('kota_kab'),
-				'kec'               => $this->input->post('kec'),
-				'kel'               => $this->input->post('kel'),
-				'alamat'            => $this->input->post('alamat'),
-				'kewarganegaraan'   => $this->input->post('kewarganegaraan'),
-				'hp'                => $this->input->post('hp'),
-				'email'             => $this->input->post('email'),
-				'aktif'             => 1,
-				'password'          => password_hash($password, PASSWORD_DEFAULT)
+				'nama_pelanggan'    => $this->input->post('nama_pelanggan'),
+				'tipe'          	=> $this->input->post('tipe'),
+				'email'   	    	=> $this->input->post('email'),
+				'no_hp'      		=> $this->input->post('no_hp'),
+				'alamat'     		=> $this->input->post('alamat'),
+				'no_internet'      	=> $this->input->post('internet'),
+				'no_voice'       	=> $this->input->post('telepon'),
+				'odp'   	    	=> $this->input->post('odp'),
+				'port' 				=> $this->input->post('port'),
+				'sn_ont'      	    => $this->input->post('sn')
 			];
 
-			$tambah = $this->m_datapasien->tambah($data);
-			if ($tambah) {
-				$datarm = [
-					'no_rm'     => $no_rm,
-					'id_pasien' => $tambah
+			$addData = $this->model_pelanggan->insert($data);
+
+			if ($addData) {
+				$response	= [
+					'status' => 2
 				];
 
-				$datatoken = [
-					'id_pasien'     => $tambah,
-					'nama_login'    => $this->input->post('nama_pasien'),
-					'token'         => ''
-				];
-
-				$this->db->insert('tbl_rekammedis', $datarm);
-				$this->db->insert('tbl_token_mobile', $datatoken);
-				$validasi['status'] = 2;
-				echo json_encode($validasi);
+				echo json_encode($response);
 			} else {
-				$validasi['status'] = 3;
-				echo json_encode($validasi);
+				$response	= [
+					'status' => 3
+				];
+
+				echo json_encode($response);
 			}
 		}
 	}

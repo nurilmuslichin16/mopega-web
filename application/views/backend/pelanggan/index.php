@@ -102,6 +102,12 @@
 <!-- /.container-fluid -->
 
 <script>
+    $(document).ready(function() {
+        $("#formTambahDataPelanggan").submit(function(e) {
+            e.preventDefault();
+        });
+    });
+
     function hapus() {
         Swal.fire({
             title: 'Yakin ingin menghapus data pelanggan?',
@@ -127,11 +133,29 @@
             data: $('#formTambahDataPelanggan').serialize(),
             dataType: "JSON",
             success: function(data) {
+                // Status (1: Form masih ada yang kosong, 2: Sukses, 3: Server Error)
                 if (data.status == 2) {
-                    window.location.replace("<?= site_url('petugas/datapasien/proses_redirect/2') ?>");
+                    Swal.fire(
+                        'Sukses!',
+                        'Data Pelanggan berhasil ditambahkan.',
+                        'success'
+                    ).then(() => {
+                        window.location.replace("<?= site_url('admin/pelanggan') ?>");
+                    });
                 } else if (data.status == 3) {
-                    window.location.replace("<?= site_url('petugas/datapasien/proses_redirect/3') ?>");
+                    Swal.fire(
+                        'Gagal!',
+                        'Sistem tidak dapat menyimpan data, silahkan ulangi kembali.',
+                        'error'
+                    ).then(() => {
+                        window.location.replace("<?= site_url('admin/pelanggan') ?>");
+                    });
                 } else {
+                    Swal.fire(
+                        'Peringatan!',
+                        'Semua form wajib di isi, silahkan cek kembali.',
+                        'error'
+                    );
                     $.each(data.error, function(key, value) {
                         if (value != "") {
                             $('#' + key).addClass('inputerror');
@@ -183,6 +207,7 @@
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Email *">
+                                <small class="mt-3 text-danger" id="error"></small>
                             </div>
                             <div class="form-group">
                                 <label for="no_hp">No HP</label>
