@@ -163,4 +163,22 @@ class Pelanggan extends CI_Controller
 
 		$this->load->view('backend/template', $data);
 	}
+
+	public function delete()
+	{
+		$id_pelanggan	= $this->input->post('id_pelanggan');;
+		$query			= $this->model_pelanggan->delete($id_pelanggan);
+
+		if ($query) {
+			$response		= [
+				'status' 	=> true
+			];
+		} else {
+			$response		= [
+				'status' 	=> false
+			];
+		}
+
+		echo json_encode($response);
+	}
 }

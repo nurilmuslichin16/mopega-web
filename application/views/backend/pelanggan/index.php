@@ -94,7 +94,30 @@
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                Swal.fire('Terhapus!', '', 'success')
+                $.ajax({
+                    url: "<?= site_url('admin/pelanggan/delete'); ?>",
+                    type: "POST",
+                    data: {
+                        'id_pelanggan': id_pelanggan
+                    },
+                    dataType: "JSON",
+                    success: function(data) {
+                        if (data.status) {
+                            Swal.fire('Data berhasil terhapus!', '', 'success').then(() => {
+                                window.location.replace("<?= site_url('admin/pelanggan') ?>");
+                            });
+                        } else {
+                            Swal.fire('Server Error! Silahkan coba kembali.', '', 'error').then(() => {
+                                window.location.replace("<?= site_url('admin/pelanggan') ?>");
+                            });;
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Error pada ajax!');
+                        $('#btnSave').text('Tambah');
+                        $('#btnSave').attr('disabled', false);
+                    }
+                });
             } else {
                 Swal.fire('Membatalkan proses hapus.', '', 'info')
             }
