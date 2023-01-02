@@ -27,51 +27,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($listData as $data) : ?>
                         <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
+                            <td><?= $data['nik']; ?></td>
+                            <td><?= $data['nama_teknisi']; ?></td>
+                            <td><?= $data['mitra']; ?></td>
+                            <td><?= statusTeknisi($data['status']); ?></td>
                             <td>
-                                <a href="#" data-toggle="modal" data-target="#ubahDataTeknisi" class="btn btn-warning btn-circle btn-sm">
+                                <a href="#" onclick="edit(<?= $data['id_telegram']; ?>)" class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 &nbsp;
-                                <a href="#" onclick="hapus()" class="btn btn-danger btn-circle btn-sm">
+                                <a href="#" onclick="hapus(<?= $data['id_telegram']; ?>)" class="btn btn-danger btn-circle btn-sm">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Garrett Winters</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-                            <td>63</td>
-                            <td>
-                                <a href="#" data-toggle="modal" data-target="#ubahDataTeknisi" class="btn btn-warning btn-circle btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" onclick="hapus()" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Ashton Cox</td>
-                            <td>Junior Technical Author</td>
-                            <td>San Francisco</td>
-                            <td>66</td>
-                            <td>
-                                <a href="#" data-toggle="modal" data-target="#ubahDataTeknisi" class="btn btn-warning btn-circle btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" onclick="hapus()" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -82,7 +54,13 @@
 <!-- /.container-fluid -->
 
 <script>
-    function hapus() {
+    $(document).ready(function() {
+        $("#formDataTeknisi").submit(function(e) {
+            e.preventDefault();
+        });
+    });
+
+    function hapus(id_telegram) {
         Swal.fire({
             title: 'Yakin ingin menghapus data teknisi?',
             showCancelButton: true,
@@ -90,11 +68,106 @@
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                Swal.fire('Terhapus!', '', 'success')
+                $.ajax({
+                    url: "<?= site_url('admin/teknisi/delete'); ?>",
+                    type: "POST",
+                    data: {
+                        'id_telegram': id_telegram
+                    },
+                    dataType: "JSON",
+                    success: function(data) {
+                        if (data.status) {
+                            Swal.fire('Data berhasil terhapus!', '', 'success').then(() => {
+                                window.location.replace("<?= site_url('admin/teknisi') ?>");
+                            });
+                        } else {
+                            Swal.fire('Server Error! Silahkan coba kembali.', '', 'error').then(() => {
+                                window.location.replace("<?= site_url('admin/teknisi') ?>");
+                            });;
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Error pada ajax!');
+                        $('#btnSave').text('Tambah');
+                        $('#btnSave').attr('disabled', false);
+                    }
+                });
             } else {
                 Swal.fire('Membatalkan proses hapus.', '', 'info')
             }
         })
+    }
+
+    function edit(id_telegram) {
+        $('#title_modal').text('Edit Data Teknisi');
+        $('#btnSave').text('Ubah');
+        $('#formDataTeknisi')[0].reset();
+        $('input').removeClass('inputerror');
+        $('textarea').removeClass('inputerror');
+        $('select').removeClass('inputerror');
+        $('.form-group').find('#error').empty();
+
+        $.ajax({
+            url: "<?= site_url('admin/teknisi/getData'); ?>",
+            type: 'POST',
+            data: {
+                'id_telegram': id_telegram
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                $('#id_telegram').val(data.id_telegram);
+                $('#nik').val(data.nik);
+                $('#nama_teknisi').val(data.nama_teknisi);
+                $('#mitra').val(data.mitra);
+                $('#status').val(data.status);
+
+                $('#ubahDataTeknisi').modal('show');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error pada ajax!');
+                $('#btnSave').text('Tambah');
+                $('#btnSave').attr('disabled', false);
+            }
+        })
+    }
+
+    function save() {
+        $('#btnSave').text('saving...');
+        $('#btnSave').attr('disabled', true);
+
+        $.ajax({
+            url: "<?php echo site_url('admin/teknisi/edit') ?>",
+            type: "POST",
+            data: $('#formDataTeknisi').serialize(),
+            dataType: "JSON",
+            success: function(data) {
+                // Status (1: Sukses, 2: Server Error)
+                if (data.status == 1) {
+                    Swal.fire(
+                        'Sukses!',
+                        'Data Teknisi berhasil diubah.',
+                        'success'
+                    ).then(() => {
+                        window.location.replace("<?= site_url('admin/teknisi') ?>");
+                    });
+                } else {
+                    Swal.fire(
+                        'Gagal!',
+                        'Sistem tidak dapat menyimpan data, silahkan ulangi kembali.',
+                        'error'
+                    ).then(() => {
+                        window.location.replace("<?= site_url('admin/teknisi') ?>");
+                    });
+                }
+                $('#btnSave').text('Tambah');
+                $('#btnSave').attr('disabled', false);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error pada ajax!');
+                $('#btnSave').text('Tambah');
+                $('#btnSave').attr('disabled', false);
+            }
+        });
     }
 </script>
 
@@ -108,30 +181,27 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="#" id="formUbahDataTeknisi" method="POST">
+            <form action="#" id="formDataTeknisi" method="POST">
                 <div class="modal-body">
+                    <input type="hidden" id="id_telegram" name="id_telegram">
                     <div class="form-group">
                         <label for="nik">NIK</label>
-                        <input type="text" class="form-control" id="nik" name="nik" placeholder="NIK *">
-                        <small class="mt-3 text-danger" id="error"></small>
+                        <input type="text" class="form-control" id="nik" name="nik" disabled>
                     </div>
                     <div class="form-group">
                         <label for="nama_teknisi">Nama Teknisi</label>
-                        <input type="text" class="form-control" id="nama_teknisi" name="nama_teknisi" placeholder="Nama Teknisi *">
+                        <input type="text" class="form-control" id="nama_teknisi" name="nama_teknisi" disabled>
                     </div>
                     <div class="form-group">
                         <label for="mitra">Mitra</label>
-                        <input type="text" class="form-control" id="mitra" name="mitra" placeholder="Mitra *">
-                        <small class="mt-3 text-danger" id="error"></small>
+                        <input type="text" class="form-control" id="mitra" name="mitra" disabled>
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select class="form-control" id="status" name="status">
-                            <option value="">Pilih Status</option>
                             <option value="1">Aktif</option>
                             <option value="0">Tidak Aktif</option>
                         </select>
-                        <small class="mt-3 text-danger" id="error"></small>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -37,3 +37,16 @@ function status($data)
             break;
     }
 }
+
+function statusTeknisi($data)
+{
+    switch ($data) {
+        case '1':
+            return "<span class='badge badge-success'>Aktif</span>";
+            break;
+
+        default:
+            return "<span class='badge badge-danger'>Blocked</span>";
+            break;
+    }
+}
