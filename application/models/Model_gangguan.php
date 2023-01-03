@@ -7,7 +7,10 @@ class Model_gangguan extends CI_Model
     public function get_all()
     {
         // Jalankan query
-        $query = $this->db->get($this->table);
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('tb_pelanggan', 'tb_pelanggan.id_pelanggan = tb_gangguan.id_pelanggan');
+        $query = $this->db->get();
 
         // Return hasil query
         return $query;
@@ -16,9 +19,12 @@ class Model_gangguan extends CI_Model
     public function get_where($where)
     {
         // Jalankan query
-        $query = $this->db
-            ->where($where)
-            ->get($this->table);
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('tb_pelanggan', 'tb_pelanggan.id_pelanggan = tb_gangguan.id_pelanggan');
+        $this->db->join('tb_teknisi', 'tb_teknisi.id_telegram = tb_gangguan.teknisi');
+        $this->db->where($where);
+        $query = $this->db->get();
 
         // Return hasil query
         return $query;

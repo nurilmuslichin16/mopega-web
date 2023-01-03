@@ -37,7 +37,7 @@
                                 <td><?= $data['no_internet'] ?? '-'; ?> / <?= $data['no_voice'] ?? '-'; ?></td>
                                 <td><?= tipe($data['tipe']); ?></td>
                                 <td><?= $data['report_date']; ?></td>
-                                <td><?= $data['expired']; ?></td>
+                                <td><span class="badge badge-warning">2 Jam 30 Menit</span></td>
                                 <td><?= status($data['status']); ?></td>
                                 <td>
                                     <a href="#" data-toggle="modal" data-target="#followUpModal" class="btn btn-primary btn-circle btn-sm">
@@ -74,37 +74,119 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Pilih teknisi untuk mengirim order.
-                <br />
-                <br />
-                <div class="form-group mb-4">
-                    <select class="form-control" id="teknisi" name="teknisi">
-                        <option value="">Pilih Teknisi</option>
-                        <option value="">Andi</option>
-                        <option value="">Bobby</option>
-                        <option value="">Edi</option>
-                    </select>
-                    <small class="mt-3 text-danger" id="error"></small>
+            <form action="#" id="formFollowUp" method="POST">
+                <div class="modal-body">Pilih teknisi untuk mengirim order.
+                    <br />
+                    <br />
+                    <div class="form-group mb-4">
+                        <select class="form-control" id="teknisi" name="teknisi">
+                            <option value="">Pilih Teknisi</option>
+                            <?php foreach ($listTeknisi as $data) : ?>
+                                <option value="<?= $data['id_telegram']; ?>"><?= $data['nama_teknisi']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <small class="mt-3 text-danger" id="error"></small>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                <a class="btn btn-primary" href="<?= base_url('admin/gangguan'); ?>">Kirim</a>
-            </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                    <button type="submit" id="btnSave" onclick="save()" class="btn btn-primary">Kirim</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
-    function hapus() {
+    $(document).ready(function() {
+        $("#formFollowUp").submit(function(e) {
+            e.preventDefault();
+        });
+    });
+
+    function save() {
+        $('#btnSave').text('saving...');
+        $('#btnSave').attr('disabled', true);
+
+        $.ajax({
+            url: "<?php echo site_url('admin/gangguan/followUp') ?>",
+            type: "POST",
+            data: $('#formFollowUp').serialize(),
+            dataType: "JSON",
+            success: function(data) {
+                // Status (1: Form masih ada yang kosong, 2: Sukses, 3: Server Error)
+                if (data.status == 2) {
+                    Swal.fire(
+                        'Sukses!',
+                        'Order gangguan berhasil dikirim ke Teknisi.',
+                        'success'
+                    ).then(() => {
+                        window.location.replace("<?= site_url('admin/gangguan') ?>");
+                    });
+                } else {
+                    Swal.fire(
+                        'Gagal!',
+                        'Sistem tidak dapat mengirim order, silahkan ulangi kembali.',
+                        'error'
+                    ).then(() => {
+                        window.location.replace("<?= site_url('admin/gangguan') ?>");
+                    });
+                } else {
+                    Swal.fire(
+                        'Peringatan!',
+                        'Wajib pilih teknisi, silahkan cek kembali.',
+                        'error'
+                    );
+                    $.each(data.error, function(key, value) {
+                        if (value != "") {
+                            $('#' + key).addClass('inputerror');
+                            $('#' + key).parent().find('#error').text(value);
+                        }
+                    });
+                }
+                $('#btnSave').text('Tambah');
+                $('#btnSave').attr('disabled', false);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error pada ajax!');
+                $('#btnSave').text('Tambah');
+                $('#btnSave').attr('disabled', false);
+            }
+        });
+    }
+
+    function hapus(id_gangguan) {
         Swal.fire({
-            title: 'Yakin ingin menghapus order?',
+            title: 'Yakin ingin menghapus data gangguan?',
             showCancelButton: true,
             confirmButtonText: 'Hapus',
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                Swal.fire('Terhapus!', '', 'success')
+                $.ajax({
+                    url: "<?= site_url('admin/gangguan/delete'); ?>",
+                    type: "POST",
+                    data: {
+                        'id_gangguan': id_gangguan
+                    },
+                    dataType: "JSON",
+                    success: function(data) {
+                        if (data.status) {
+                            Swal.fire('Data berhasil terhapus!', '', 'success').then(() => {
+                                window.location.replace("<?= site_url('admin/gangguan') ?>");
+                            });
+                        } else {
+                            Swal.fire('Server Error! Silahkan coba kembali.', '', 'error').then(() => {
+                                window.location.replace("<?= site_url('admin/gangguan') ?>");
+                            });;
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Error pada ajax!');
+                        $('#btnSave').text('Tambah');
+                        $('#btnSave').attr('disabled', false);
+                    }
+                });
             } else {
                 Swal.fire('Membatalkan proses hapus.', '', 'info')
             }
