@@ -72,4 +72,33 @@ class Model_gangguan extends CI_Model
 
         return $query;
     }
+
+    public function cetak($tgl_awal, $tgl_akhir, $tipe, $status)
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('tb_pelanggan', 'tb_pelanggan.id_pelanggan = tb_gangguan.id_pelanggan');
+        $this->db->join('tb_teknisi', 'tb_teknisi.id_telegram = tb_gangguan.teknisi');
+
+        if ($tgl_awal != null && $tgl_awal != '') {
+            if ($tgl_akhir != null && $tgl_akhir != '') {
+                $this->db->where('date(report_date) >=', $tgl_awal);
+                $this->db->where('date(report_date) <=', $tgl_akhir);
+            } else {
+                $this->db->where('date(report_date)', $tgl_awal);
+            }
+        }
+
+        if ($tipe != null && $tipe != '') {
+            $this->db->where('tipe', $tipe);
+        }
+
+        if ($status != null && $status != '') {
+            $this->db->where('status', $status);
+        }
+
+        $query = $this->db->get();
+
+        return $query;
+    }
 }
