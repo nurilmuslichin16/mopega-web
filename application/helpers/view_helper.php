@@ -50,3 +50,28 @@ function statusTeknisi($data)
             break;
     }
 }
+
+function logAction($data)
+{
+    switch ($data) {
+        case '0':
+            return "<span class='badge badge-danger'>Wait Order</span>";
+            break;
+
+        case '1':
+            return "<span class='badge badge-info'>Ordered</span>";
+            break;
+
+        case '2':
+            return "<span class='badge badge-primary'>On The Way</span>";
+            break;
+
+        case '3':
+            return "<span class='badge badge-warning'>On Going Progress</span>";
+            break;
+
+        default:
+            return "<span class='badge badge-success'>Closed</span>";
+            break;
+    }
+}

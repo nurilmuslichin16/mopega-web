@@ -60,4 +60,16 @@ class Model_gangguan extends CI_Model
         // Return hasil query
         return $query;
     }
+
+    public function log($tiket)
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('tb_log', 'tb_log.id_gangguan = tb_gangguan.id_gangguan');
+        $this->db->where('tiket', $tiket);
+        $this->db->order_by('waktu');
+        $query = $this->db->get();
+
+        return $query;
+    }
 }

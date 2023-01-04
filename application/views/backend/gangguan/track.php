@@ -16,25 +16,53 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
-                        &nbsp<?= $title; ?>
+                        &nbsp<?= $subtitle; ?>
                     </h6>
                 </div>
-                <form action="<?= base_url('petugas/pendaftaranpasien/filter'); ?>" method="POST">
+                <form action="<?= base_url('admin/gangguan/track'); ?>" method="POST">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="tiket">Tiket</label>
-                            <input type="text" class="form-control" id="tiket" name="tiket" placeholder="INxxxxxx *">
+                            <input type="text" class="form-control" id="tiket" name="tiket" placeholder="INxxxxxx *" required>
                             <small class="mt-3 text-danger" id="error"></small>
                         </div>
                         <span style="color: red; font-size: 12px"><i>*Silahkan masukkan tiket gangguan, untuk melihat log aktivitas tiket tersebut.</i></span>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-fw fa-download"></i>&nbspTrack</button>
+                        <button type="submit" name="submit" id="submit" value="true" class="btn btn-success"><i class="fas fa-fw fa-download"></i>&nbspTrack</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <?php if ($track) { ?>
+        <!-- Result Track -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            &nbspHasil Track
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <?php foreach ($result as $data) : ?>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1"><?= logAction($data['action']); ?></h5>
+                                        <small><?= $data['waktu']; ?></small>
+                                    </div>
+                                    <p class="mb-1"><?= $data['keterangan']; ?></p>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
 
     <script type="text/javascript">
         $(document).ready(function() {

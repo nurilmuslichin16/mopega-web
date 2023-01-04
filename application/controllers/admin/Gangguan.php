@@ -71,6 +71,13 @@ class Gangguan extends CI_Controller
 		$data['title']		= 'Track Laporan';
 		$data['subtitle']	= 'Track Laporan Gangguan';
 		$data['content']	= 'backend/gangguan/track';
+		$data['track']		= false;
+
+		if ($this->input->post('submit')) {
+			$data['track']	= true;
+			$tiket			= $this->input->post('tiket');
+			$data['result']	= $this->model_gangguan->log($tiket)->result_array();
+		}
 
 		$this->load->view('backend/template', $data);
 	}

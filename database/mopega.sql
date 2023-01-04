@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Jan 2023 pada 01.13
+-- Waktu pembuatan: 04 Jan 2023 pada 01.25
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -60,10 +60,21 @@ INSERT INTO `tb_gangguan` (`id_gangguan`, `id_pelanggan`, `tiket`, `ket`, `repor
 CREATE TABLE `tb_log` (
   `id_log` int(11) NOT NULL,
   `id_gangguan` int(11) NOT NULL,
-  `action` tinyint(2) NOT NULL,
+  `action` tinyint(2) NOT NULL COMMENT '0 : Wait Order, 1 : Ordered, 2 : On The Way, 3 : On Going Progress, 4 : Closed',
   `keterangan` text NOT NULL,
   `waktu` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tb_log`
+--
+
+INSERT INTO `tb_log` (`id_log`, `id_gangguan`, `action`, `keterangan`, `waktu`) VALUES
+(1, 1, 0, 'Laporan gangguan berhasil di buat', '2023-01-03 06:51:03'),
+(2, 1, 1, 'Order Gangguan berhasil dikirim ke teknisi', '2023-01-03 07:51:03'),
+(3, 1, 2, 'Teknisi menuju lokasi pelanggan', '2023-01-03 08:51:03'),
+(4, 1, 3, 'Teknisi sedang melakukan pengecekan gangguan', '2023-01-03 09:51:03'),
+(5, 1, 4, 'Gangguan berhasil dikerjakan dan jaringan sudah normal', '2023-01-03 10:51:03');
 
 -- --------------------------------------------------------
 
@@ -137,7 +148,7 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `nama_lengkap`, `email`, `password`, `level`, `status`, `last_login`) VALUES
-(1, 'Team Leader', 'admin@gmail.com', '$2y$10$IjRv6I5uuuxyc0VViNufa.1k8KOoEIbuYrO8onFVmmvgJ2nE4ZH3G', 1, 1, '2023-01-02 23:44:48');
+(1, 'Team Leader', 'admin@gmail.com', '$2y$10$IjRv6I5uuuxyc0VViNufa.1k8KOoEIbuYrO8onFVmmvgJ2nE4ZH3G', 1, 1, '2023-01-04 00:44:01');
 
 --
 -- Indexes for dumped tables
@@ -187,7 +198,7 @@ ALTER TABLE `tb_gangguan`
 -- AUTO_INCREMENT untuk tabel `tb_log`
 --
 ALTER TABLE `tb_log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pelanggan`
