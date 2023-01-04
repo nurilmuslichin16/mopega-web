@@ -20,8 +20,12 @@ function tipe($data)
 function status($data)
 {
     switch ($data) {
+        case '0':
+            return "<span class='badge badge-danger'>Wait Order</span>";
+            break;
+
         case '1':
-            return "<span class='badge badge-danger'>Wait Order & Ordered</span>";
+            return "<span class='badge badge-info'>Ordered</span>";
             break;
 
         case '2':

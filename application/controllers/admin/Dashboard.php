@@ -10,6 +10,8 @@ class Dashboard extends CI_Controller
 		if ($this->session->userdata('logged_in') != true) {
 			redirect('login');
 		}
+
+		$this->load->model('model_gangguan');
 	}
 
 	public function index()
@@ -17,6 +19,7 @@ class Dashboard extends CI_Controller
 		$data['title']		= 'Dashboard';
 		$data['subtitle']	= 'Dashboard';
 		$data['content']	= 'backend/dashboard/index';
+		$data['data']		= $this->model_gangguan->dashboard()->row_array();
 
 		$this->load->view('backend/template', $data);
 	}

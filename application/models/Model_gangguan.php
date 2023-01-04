@@ -101,4 +101,24 @@ class Model_gangguan extends CI_Model
 
         return $query;
     }
+
+    public function dashboard()
+    {
+        $this->db->select("
+            /*TOTAL GANGGUAN*/
+            SUM(CASE WHEN (month(date(report_date)) = MONTH(CURRENT_DATE())) THEN 1 ELSE 0 END) as bulanan,
+            SUM(CASE WHEN (date(report_date) = CURDATE()) THEN 1 ELSE 0 END) as harian,
+
+            /*STATUS GANGGUAN*/
+            SUM(CASE WHEN (status = '0' OR status = '1') THEN 1 ELSE 0 END) as wo_order,
+            SUM(CASE WHEN (status = '2') THEN 1 ELSE 0 END) as otw,
+            SUM(CASE WHEN (status = '3') THEN 1 ELSE 0 END) as ogp,
+            SUM(CASE WHEN (status = '4') THEN 1 ELSE 0 END) as closed
+        ");
+
+        $this->db->from($this->table);
+        $query = $this->db->get();
+
+        return $query;
+    }
 }
