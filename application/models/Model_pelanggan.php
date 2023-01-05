@@ -54,4 +54,15 @@ class Model_pelanggan extends CI_Model
         // Return hasil query
         return $query;
     }
+
+    public function cekNomor($nomor)
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where('no_internet', $nomor);
+        $this->db->or_where('no_voice', $nomor);
+        $query = $this->db->get();
+
+        return $query;
+    }
 }

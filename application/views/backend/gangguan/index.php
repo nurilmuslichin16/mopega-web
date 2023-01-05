@@ -37,7 +37,7 @@
                                 <td><?= $data['no_internet'] ?? '-'; ?> / <?= $data['no_voice'] ?? '-'; ?></td>
                                 <td><?= tipe($data['tipe']); ?></td>
                                 <td><?= $data['report_date']; ?></td>
-                                <td><span class="badge badge-warning">2 Jam 30 Menit</span></td>
+                                <td><?= expired($data['booking_date']); ?></td>
                                 <td><?= status($data['status']); ?></td>
                                 <td>
                                     <a href="#" data-toggle="modal" data-target="#followUpModal" class="btn btn-primary btn-circle btn-sm">
@@ -123,7 +123,7 @@
                     ).then(() => {
                         window.location.replace("<?= site_url('admin/gangguan') ?>");
                     });
-                } else {
+                } else if (data.status == 3) {
                     Swal.fire(
                         'Gagal!',
                         'Sistem tidak dapat mengirim order, silahkan ulangi kembali.',

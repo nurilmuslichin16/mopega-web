@@ -13,6 +13,8 @@
 
 <!-- Bootstrap core JS-->
 <script src="<?= base_url('assets/frontend/js/bootstrap.bundle.min.js'); ?>"></script>
+<!-- Sweet Alert-->
+<script src="<?= base_url('assets/backend/js/sweet-alert.min.js'); ?>"></script>
 <!-- Core theme JS-->
 <script src="<?= base_url('assets/frontend/js/scripts.js'); ?>"></script>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->

@@ -16,6 +16,8 @@
     <link href="<?= base_url('assets/frontend/css/font-roboto.css'); ?>" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="<?= base_url('assets/frontend/css/styles.css') ?>" rel="stylesheet" />
+
+    <script src="<?= base_url('assets/backend/vendor/jquery/jquery.min.js'); ?>"></script>
 </head>
 
 <body id="page-top">

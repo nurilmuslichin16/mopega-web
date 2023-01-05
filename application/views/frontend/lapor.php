@@ -52,10 +52,7 @@
             <!-- has successfully submitted-->
             <div class="d-none" id="submitSuccessMessage">
                 <div class="text-center text-white mb-3">
-                    <div class="fw-bolder">Gangguan berhasil dilaporkan!</div>
-                    Mohon menunggu ya, teknisi kami segera datang ke rumah Anda.
-                    <br />
-                    <a href="<?= base_url(); ?>">KEMBALI</a>
+                    <div class="fw-bolder">Semoga Harimu Menyenangkan :)</div>
                 </div>
             </div>
             <!-- Submit error message-->
@@ -66,7 +63,62 @@
                 <div class="text-center text-danger mb-3">Error server!</div>
             </div>
             <!-- Submit Button-->
-            <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase disabled" id="submitButton" type="submit">Lapor Gangguan</button></div>
+            <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase disabled" onclick="lapor()" id="submitButton" type="submit">Lapor Gangguan</button></div>
         </form>
     </div>
 </section>
+
+<script>
+    $(document).ready(function() {
+        $("#contactForm").submit(function(e) {
+            e.preventDefault();
+        });
+    });
+
+    function lapor() {
+        $('#submitButton').text('Prosess...');
+        $('#submitButton').attr('disabled', true);
+
+        $.ajax({
+            url: "<?php echo site_url('web/addLapor') ?>",
+            type: "POST",
+            data: $('#contactForm').serialize(),
+            dataType: "JSON",
+            success: function(data) {
+                // Status (1: Form masih ada yang kosong, 2: Sukses, 3: Server Error)
+                if (data.status == 2) {
+                    Swal.fire(
+                        'Sukses!',
+                        'Laporan gangguan berhasil dikirim, mohon ditunggu ya.',
+                        'success'
+                    ).then(() => {
+                        window.location.replace("<?= site_url('web/lapor') ?>");
+                    });
+                } else if (data.status == 3) {
+                    Swal.fire(
+                        'Gagal!',
+                        'Server error, silahkan ulangi kembali.',
+                        'error'
+                    ).then(() => {
+                        window.location.replace("<?= site_url('web/lapor') ?>");
+                    });
+                } else {
+                    Swal.fire(
+                        'Peringatan!',
+                        'Sistem tidak dapat menemukan nomer, silahkan ulangi kembali.',
+                        'error'
+                    ).then(() => {
+                        window.location.replace("<?= site_url('web/lapor') ?>");
+                    });
+                }
+                $('#submitButton').text('Tambah');
+                $('#submitButton').attr('disabled', false);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error pada ajax!');
+                $('#submitButton').text('Tambah');
+                $('#submitButton').attr('disabled', false);
+            }
+        });
+    }
+</script>

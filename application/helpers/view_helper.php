@@ -55,6 +55,16 @@ function statusTeknisi($data)
     }
 }
 
+function expired($booking_date)
+{
+    $now = date("Y-m-d H:i:s");
+    if ($now > $booking_date) {
+        return "<span class='badge badge-danger'>$booking_date</span>";
+    } else {
+        return "<span class='badge badge-warning'>$booking_date</span>";
+    }
+}
+
 function logAction($data)
 {
     switch ($data) {

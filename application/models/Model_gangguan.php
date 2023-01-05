@@ -121,4 +121,16 @@ class Model_gangguan extends CI_Model
 
         return $query;
     }
+
+    public function duplikatTiket($where)
+    {
+        // Jalankan query
+        $this->db->select('tiket');
+        $this->db->from($this->table);
+        $this->db->where($where);
+        $query = $this->db->get();
+
+        // Return hasil query
+        return $query;
+    }
 }
