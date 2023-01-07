@@ -112,7 +112,13 @@ class Web extends CI_Controller
 
 	public function trackresult()
 	{
+		$this->load->model('model_gangguan');
+
+		$tiket	= $this->input->post('tiket');
+
 		$data['content']	= 'frontend/trackresult';
+		$data['info']		= $this->model_gangguan->get_where(['tiket' => $tiket])->row_array();
+		$data['data']		= $this->model_gangguan->log($tiket)->result_array();
 
 		$this->load->view('frontend/template', $data);
 	}

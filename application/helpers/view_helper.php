@@ -90,6 +90,31 @@ function logAction($data)
     }
 }
 
+function logActionText($data)
+{
+    switch ($data) {
+        case '0':
+            return "Laporan Dibuat";
+            break;
+
+        case '1':
+            return "Tiket Dikirim Ke Teknisi";
+            break;
+
+        case '2':
+            return "Teknisi Menuju Lokasi Pelanggan";
+            break;
+
+        case '3':
+            return "Sedang Dikerjakan Teknisi";
+            break;
+
+        default:
+            return "Jaringan Sudah Normal";
+            break;
+    }
+}
+
 function date_indo($tgl)
 {
     $ubah = gmdate($tgl, time() + 60 * 60 * 8);
@@ -98,6 +123,25 @@ function date_indo($tgl)
     $bulan = bulan($pecah[1]);
     $tahun = $pecah[0];
     return $tanggal . ' ' . $bulan . ' ' . $tahun;
+}
+
+function date_indo_jam($waktu)
+{
+    $pecah  = explode(" ", $waktu);
+    $tgl    = $pecah[0];
+    $jam    = $pecah[1];
+
+    $pecahtgl   = explode("-", $tgl);
+    $tanggal    = $pecahtgl[2];
+    $bulan      = bulan($pecahtgl[1]);
+    $tahun      = $pecahtgl[0];
+
+    $pecahjam   = explode(":", $jam);
+    $detik      = $pecahjam[2];
+    $menit      = $pecahjam[1];
+    $pukul      = $pecahjam[0];
+
+    return $tanggal . ' ' . $bulan . ' ' . $tahun . ' ' . $pukul . ':' . $menit . ':' . $detik;
 }
 
 function bulan($bln)
