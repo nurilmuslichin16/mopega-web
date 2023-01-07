@@ -12,6 +12,7 @@ class Gangguan extends CI_Controller
 
 		$this->load->model('model_gangguan');
 		$this->load->model('model_teknisi');
+		$this->load->model('model_log');
 	}
 
 	public function index()
@@ -23,6 +24,71 @@ class Gangguan extends CI_Controller
 		$data['listTeknisi']	= $this->model_teknisi->get_all()->result_array();
 
 		$this->load->view('backend/template', $data);
+	}
+
+	public function followUp()
+	{
+		$id_gangguan	= $this->input->post('id_gangguan');
+		$teknisi		= $this->input->post('teknisi');
+
+		$cekTeknisi	= $this->model_teknisi->get_where(['id_telegram' => $teknisi])->num_rows();
+
+		if ($cekTeknisi < 1) {
+			$response	= [
+				'status' 	=> 1,
+				'error'		=> [
+					'teknisi'    => form_error('teknisi', ' ', ' ')
+				]
+			];
+
+			echo json_encode($response);
+		} else {
+			$data = [
+				'teknisi'   	    => $teknisi,
+				'status'    		=> 1,
+				'send_order_at'     => date('Y-m-d H:s:i')
+			];
+
+			$updateData 	= $this->model_gangguan->update($id_gangguan, $data);
+			$insertLog		= $this->model_log->insert([
+				'id_gangguan'	=> $id_gangguan,
+				'action'		=> 1,
+				'keterangan'	=> 'Order Gangguan berhasil dikirim ke teknisi',
+				'waktu'			=> date('Y-m-d H:s:i')
+			]);
+
+			if ($updateData && $insertLog) {
+				$data		= $this->model_gangguan->get_where(['id_gangguan' => $id_gangguan])->row_array();
+				$internet	= $data['no_internet'] == null ? '-' : $data['no_internet'];
+				$voice		= $data['no_voice'] == null ? '-' : $data['no_voice'];
+
+				$message_text = "ORDER\n";
+				$message_text .= "$data[tiket]\n";
+				$message_text .= "NAMA PELANGGAN : $data[nama_pelanggan]\n";
+				$message_text .= "NO INTERNET : $internet\n";
+				$message_text .= "NO VOICE : $voice\n";
+				$message_text .= "CP : $data[no_hp]\n";
+				$message_text .= "ODP : $data[odp] - $data[port]\n";
+				$message_text .= "SN ONT : $data[sn_ont]\n";
+				$message_text .= "ALAMAT : $data[alamat]\n";
+				$message_text .= "KATEGORI : $data[tipe]\n";
+				$message_text .= "GANGGUAN : $data[ket]\n";
+
+				sendChat($teknisi, $message_text);
+
+				$response	= [
+					'status' => 2
+				];
+
+				echo json_encode($response);
+			} else {
+				$response	= [
+					'status' => 3
+				];
+
+				echo json_encode($response);
+			}
+		}
 	}
 
 	public function getData()

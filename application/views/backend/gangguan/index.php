@@ -40,7 +40,7 @@
                                 <td><?= expired($data['booking_date']); ?></td>
                                 <td><?= status($data['status']); ?></td>
                                 <td>
-                                    <a href="#" data-toggle="modal" data-target="#followUpModal" class="btn btn-primary btn-circle btn-sm">
+                                    <a href="#" onclick="followUp(<?= $data['id_gangguan']; ?>)" class="btn btn-primary btn-circle btn-sm">
                                         <i class="fab fa-telegram"></i>
                                     </a>
                                     &nbsp;
@@ -79,6 +79,7 @@
                     <br />
                     <br />
                     <div class="form-group mb-4">
+                        <input type="hidden" id="id_gangguan" name="id_gangguan">
                         <select class="form-control" id="teknisi" name="teknisi">
                             <option value="">Pilih Teknisi</option>
                             <?php foreach ($listTeknisi as $data) : ?>
@@ -103,6 +104,16 @@
             e.preventDefault();
         });
     });
+
+    function followUp(id_gangguan) {
+        $('#formFollowUp')[0].reset();
+        $('select').removeClass('inputerror');
+        $('.form-group').find('#error').empty();
+
+        $('#id_gangguan').val(id_gangguan);
+
+        $('#followUpModal').modal('show');
+    }
 
     function save() {
         $('#btnSave').text('saving...');
