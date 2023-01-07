@@ -1,5 +1,19 @@
 <?php
 
+function sendChat($telegram_id, $message_text)
+{
+    $url = "https://api.telegram.org/bot5711494409:AAF5I3Qlc62h7CZenfu_ib2v15QhIybPk40/sendMessage?chat_id=" . $telegram_id;
+    $url = $url . "&text=" . urlencode($message_text);
+    $ch = curl_init();
+    $optArray = array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true
+    );
+    curl_setopt_array($ch, $optArray);
+    $result = curl_exec($ch);
+    curl_close($ch);
+}
+
 function tipe($data)
 {
     switch ($data) {

@@ -40,6 +40,12 @@ class Teknisi extends CI_Controller
 		$ubahData = $this->model_teknisi->update($this->input->post('id_telegram'), $data);
 
 		if ($ubahData) {
+			$id_telegram 	= $this->input->post('id_telegram');
+			$data 			= $this->model_teknisi->get_where(['id_telegram' => $id_telegram])->row_array();
+
+			$message_text 	= "Salam $data[nama_teknisi], kamu telah diapprove sebagai teknisi.. Selamat Bekerja :)";
+			sendChat($id_telegram, $message_text);
+
 			$response	= [
 				'status' => 1
 			];
