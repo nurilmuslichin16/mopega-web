@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Jan 2023 pada 01.25
+-- Waktu pembuatan: 07 Jan 2023 pada 15.59
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -34,7 +34,7 @@ CREATE TABLE `tb_gangguan` (
   `ket` text NOT NULL,
   `report_date` datetime NOT NULL,
   `booking_date` datetime NOT NULL,
-  `teknisi` int(11) NOT NULL,
+  `teknisi` int(11) DEFAULT NULL,
   `status` tinyint(2) NOT NULL,
   `send_order_at` datetime DEFAULT NULL,
   `otw_at` datetime DEFAULT NULL,
@@ -49,7 +49,9 @@ CREATE TABLE `tb_gangguan` (
 --
 
 INSERT INTO `tb_gangguan` (`id_gangguan`, `id_pelanggan`, `tiket`, `ket`, `report_date`, `booking_date`, `teknisi`, `status`, `send_order_at`, `otw_at`, `ogp_at`, `closed_at`, `penyebab`, `perbaikan`) VALUES
-(1, 1, 'IN12345', 'Wifi tidak bisa connect', '2023-01-03 06:51:03', '2023-01-03 09:51:04', 232335772, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '-', '-');
+(1, 1, 'IN12345', 'Wifi tidak bisa connect', '2023-01-03 06:51:03', '2023-01-03 09:51:04', 232335772, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Kabel fiber optic putus digigit tikus', 'Tarik ulang kabel FO dari ODP 150M'),
+(2, 1, 'IN12921', 'Internet lemot, tagihan sudah lunas.', '2023-01-05 00:46:06', '2023-01-05 05:46:06', NULL, 0, NULL, NULL, NULL, NULL, '-', '-'),
+(3, 2, 'IN3452', 'TV tidak muncul channelnya', '2023-01-05 07:10:07', '2023-01-05 10:10:07', NULL, 0, NULL, NULL, NULL, NULL, '-', '-');
 
 -- --------------------------------------------------------
 
@@ -74,7 +76,9 @@ INSERT INTO `tb_log` (`id_log`, `id_gangguan`, `action`, `keterangan`, `waktu`) 
 (2, 1, 1, 'Order Gangguan berhasil dikirim ke teknisi', '2023-01-03 07:51:03'),
 (3, 1, 2, 'Teknisi menuju lokasi pelanggan', '2023-01-03 08:51:03'),
 (4, 1, 3, 'Teknisi sedang melakukan pengecekan gangguan', '2023-01-03 09:51:03'),
-(5, 1, 4, 'Gangguan berhasil dikerjakan dan jaringan sudah normal', '2023-01-03 10:51:03');
+(5, 1, 4, 'Gangguan berhasil dikerjakan dan jaringan sudah normal', '2023-01-03 10:51:03'),
+(6, 2, 0, 'Internet lemot, tagihan sudah lunas.', '2023-01-05 00:46:06'),
+(7, 3, 0, 'TV tidak muncul channelnya', '2023-01-05 07:10:07');
 
 -- --------------------------------------------------------
 
@@ -101,8 +105,8 @@ CREATE TABLE `tb_pelanggan` (
 --
 
 INSERT INTO `tb_pelanggan` (`id_pelanggan`, `nama_pelanggan`, `no_internet`, `no_voice`, `odp`, `port`, `sn_ont`, `tipe`, `email`, `no_hp`, `alamat`) VALUES
-(1, 'Nuril Muslichin', '142265342612', '02851627162', 'ODP-PKL-FN/107', 2, 'FHTT16T26H77', 'Indihome', 'nurilmuslichin16@gmail.com', '085229531170', 'Jl Pemuda No.45'),
-(2, 'Seto Prayoga Putra', '14226537263', '0285172612', 'ODP-KDW-FA/087', 3, 'ZTEG09JUYD66', 'BGES / VPN IP', 'seto@gmail.com', '085261526252', 'Jl Panjang No 22 Gg 1'),
+(1, 'Nuril Muslichin', '142265342612', '02851627162', 'ODP-PKL-FN/107', 2, 'FHTT16T26H77', 'Indihome', 'admin@gmail.com', '086227327232', 'Lapangan Bebekan '),
+(2, 'Seto Prayoga Putra', '14226537263', '0285172612', 'ODP-KDW-FA/087', 3, 'ZTEG09JUYD66', 'BGES / VPN IP', 'seto@gmail.com', '085263537262', 'Jl Pemuda No.45 Kota Pekalongan'),
 (3, 'Fitriyah', '14222737648', '0285779228', 'ODP-KDW-FA/001', 8, 'FHTT87263527', 'WIFI ID', 'fitriyah@gmail.com', '087663773642', 'Kedungwuni Gg13 ');
 
 -- --------------------------------------------------------
@@ -148,7 +152,7 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `nama_lengkap`, `email`, `password`, `level`, `status`, `last_login`) VALUES
-(1, 'Team Leader', 'admin@gmail.com', '$2y$10$IjRv6I5uuuxyc0VViNufa.1k8KOoEIbuYrO8onFVmmvgJ2nE4ZH3G', 1, 1, '2023-01-04 00:44:01');
+(1, 'Team Leader', 'admin@gmail.com', '$2y$10$IjRv6I5uuuxyc0VViNufa.1k8KOoEIbuYrO8onFVmmvgJ2nE4ZH3G', 1, 1, '2023-01-05 07:09:17');
 
 --
 -- Indexes for dumped tables
@@ -192,13 +196,13 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT untuk tabel `tb_gangguan`
 --
 ALTER TABLE `tb_gangguan`
-  MODIFY `id_gangguan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_gangguan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_log`
 --
 ALTER TABLE `tb_log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pelanggan`
