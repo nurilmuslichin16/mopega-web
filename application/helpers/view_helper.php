@@ -42,6 +42,31 @@ function status($data)
     }
 }
 
+function statusText($data)
+{
+    switch ($data) {
+        case '0':
+            return "Wait Order";
+            break;
+
+        case '1':
+            return "Ordered";
+            break;
+
+        case '2':
+            return "On The Way";
+            break;
+
+        case '3':
+            return "On Going Progress";
+            break;
+
+        default:
+            return "Closed";
+            break;
+    }
+}
+
 function statusTeknisi($data)
 {
     switch ($data) {

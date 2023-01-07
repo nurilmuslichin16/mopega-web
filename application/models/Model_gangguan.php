@@ -133,4 +133,18 @@ class Model_gangguan extends CI_Model
         // Return hasil query
         return $query;
     }
+
+    public function historyGangguan($nomor)
+    {
+        // Jalankan query
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('tb_pelanggan', 'tb_pelanggan.id_pelanggan = tb_gangguan.id_pelanggan');
+        $this->db->where('no_internet', $nomor);
+        $this->db->or_where('no_voice', $nomor);
+        $query = $this->db->get();
+
+        // Return hasil query
+        return $query;
+    }
 }

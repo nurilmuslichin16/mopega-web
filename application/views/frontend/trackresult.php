@@ -34,6 +34,9 @@
                     </li>
                 <?php } ?>
             </ul>
+            <div class="text-center" style="margin-top: 100px;">
+                <div class="text-center"><a class="btn btn-primary btn-xl text-uppercase" href="<?= base_url('web/track'); ?>">Kembali</a></div>
+            </div>
         </div>
     <?php } else { ?>
         <div class="container">

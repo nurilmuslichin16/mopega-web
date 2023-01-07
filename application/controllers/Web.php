@@ -132,7 +132,14 @@ class Web extends CI_Controller
 
 	public function ceknomorresult()
 	{
+		$this->load->model('model_pelanggan');
+		$this->load->model('model_gangguan');
+
+		$nomor	= $this->input->post('nomor');
+
 		$data['content']	= 'frontend/ceknomorresult';
+		$data['info']		= $this->model_pelanggan->cekNomor($nomor)->row_array();
+		$data['data']		= $this->model_gangguan->historyGangguan($nomor)->result_array();
 
 		$this->load->view('frontend/template', $data);
 	}
