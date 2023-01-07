@@ -22,7 +22,7 @@ class Model_gangguan extends CI_Model
         $this->db->select('tb_gangguan.*, tb_pelanggan.*, tb_teknisi.id_telegram, tb_teknisi.nama_teknisi');
         $this->db->from($this->table);
         $this->db->join('tb_pelanggan', 'tb_pelanggan.id_pelanggan = tb_gangguan.id_pelanggan');
-        $this->db->join('tb_teknisi', 'tb_teknisi.id_telegram = tb_gangguan.teknisi');
+        $this->db->join('tb_teknisi', 'tb_teknisi.id_telegram = tb_gangguan.teknisi', 'left');
         $this->db->where($where);
         $query = $this->db->get();
 

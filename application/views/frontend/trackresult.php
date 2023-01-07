@@ -10,7 +10,7 @@
                 <?php $no = 1;
                 foreach ($data as $log) : ?>
                     <li <?= fmod($no, 2) == 0 ? "class='timeline-inverted'" : ""; ?>>
-                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="<?= base_url('assets/frontend/assets/img/about/1.jpg'); ?>" alt="..." /></div>
+                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="<?= base_url('assets/frontend/assets/img/log/' . $log['action'] . '.svg'); ?>" alt="..." /></div>
                         <div class="timeline-panel">
                             <div class="timeline-heading">
                                 <h4 class="subheading"><?= logActionText($log['action']); ?></h4>
