@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Jan 2023 pada 15.59
+-- Waktu pembuatan: 08 Jan 2023 pada 04.55
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -51,7 +51,7 @@ CREATE TABLE `tb_gangguan` (
 INSERT INTO `tb_gangguan` (`id_gangguan`, `id_pelanggan`, `tiket`, `ket`, `report_date`, `booking_date`, `teknisi`, `status`, `send_order_at`, `otw_at`, `ogp_at`, `closed_at`, `penyebab`, `perbaikan`) VALUES
 (1, 1, 'IN12345', 'Wifi tidak bisa connect', '2023-01-03 06:51:03', '2023-01-03 09:51:04', 232335772, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Kabel fiber optic putus digigit tikus', 'Tarik ulang kabel FO dari ODP 150M'),
 (2, 1, 'IN12921', 'Internet lemot, tagihan sudah lunas.', '2023-01-05 00:46:06', '2023-01-05 05:46:06', NULL, 0, NULL, NULL, NULL, NULL, '-', '-'),
-(3, 2, 'IN3452', 'TV tidak muncul channelnya', '2023-01-05 07:10:07', '2023-01-05 10:10:07', NULL, 0, NULL, NULL, NULL, NULL, '-', '-');
+(3, 2, 'IN3452', 'TV tidak muncul channelnya', '2023-01-05 07:10:07', '2023-01-05 10:10:07', 232335772, 4, '2023-01-08 06:55:21', '2023-01-08 09:41:06', '2023-01-08 09:53:12', '2023-01-08 10:52:43', 'Kabel dimakan tikus', 'Tarik ulang');
 
 -- --------------------------------------------------------
 
@@ -78,7 +78,11 @@ INSERT INTO `tb_log` (`id_log`, `id_gangguan`, `action`, `keterangan`, `waktu`) 
 (4, 1, 3, 'Teknisi sedang melakukan pengecekan gangguan', '2023-01-03 09:51:03'),
 (5, 1, 4, 'Gangguan berhasil dikerjakan dan jaringan sudah normal', '2023-01-03 10:51:03'),
 (6, 2, 0, 'Internet lemot, tagihan sudah lunas.', '2023-01-05 00:46:06'),
-(7, 3, 0, 'TV tidak muncul channelnya', '2023-01-05 07:10:07');
+(7, 3, 0, 'TV tidak muncul channelnya', '2023-01-05 07:10:07'),
+(9, 3, 1, 'Order Gangguan berhasil dikirim ke teknisi', '2023-01-08 06:55:21'),
+(10, 3, 2, 'Teknisi menuju lokasi pelanggan', '2023-01-08 10:11:36'),
+(11, 3, 3, 'Teknisi sedang melakukan pengecekan gangguan', '2023-01-08 10:11:47'),
+(13, 3, 4, 'Gangguan berhasil dikerjakan dan jaringan sudah normal', '2023-01-08 10:52:43');
 
 -- --------------------------------------------------------
 
@@ -116,7 +120,7 @@ INSERT INTO `tb_pelanggan` (`id_pelanggan`, `nama_pelanggan`, `no_internet`, `no
 --
 
 CREATE TABLE `tb_teknisi` (
-  `id_telegram` int(11) NOT NULL,
+  `id_telegram` bigint(19) NOT NULL DEFAULT 0,
   `nik` int(11) NOT NULL,
   `nama_teknisi` varchar(50) NOT NULL,
   `mitra` varchar(50) NOT NULL,
@@ -129,7 +133,7 @@ CREATE TABLE `tb_teknisi` (
 
 INSERT INTO `tb_teknisi` (`id_telegram`, `nik`, `nama_teknisi`, `mitra`, `status`) VALUES
 (232335771, 997282, 'Seto Setiawan', 'TELKOM AKSES', 0),
-(232335772, 999916, 'Nur', 'KOPEGTEL', 1);
+(232335772, 16021999, 'Nuril Muslichin', 'KOPEGTEL', 1);
 
 -- --------------------------------------------------------
 
@@ -152,7 +156,7 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `nama_lengkap`, `email`, `password`, `level`, `status`, `last_login`) VALUES
-(1, 'Team Leader', 'admin@gmail.com', '$2y$10$IjRv6I5uuuxyc0VViNufa.1k8KOoEIbuYrO8onFVmmvgJ2nE4ZH3G', 1, 1, '2023-01-05 07:09:17');
+(1, 'Team Leader', 'admin@gmail.com', '$2y$10$IjRv6I5uuuxyc0VViNufa.1k8KOoEIbuYrO8onFVmmvgJ2nE4ZH3G', 1, 1, '2023-01-08 09:54:22');
 
 --
 -- Indexes for dumped tables
@@ -202,19 +206,13 @@ ALTER TABLE `tb_gangguan`
 -- AUTO_INCREMENT untuk tabel `tb_log`
 --
 ALTER TABLE `tb_log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pelanggan`
 --
 ALTER TABLE `tb_pelanggan`
   MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT untuk tabel `tb_teknisi`
---
-ALTER TABLE `tb_teknisi`
-  MODIFY `id_telegram` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232335773;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_user`
