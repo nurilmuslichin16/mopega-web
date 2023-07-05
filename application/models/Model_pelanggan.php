@@ -65,4 +65,21 @@ class Model_pelanggan extends CI_Model
 
         return $query;
     }
+
+    function upload_file($filename)
+    {
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'xlsx';
+        $config['overwrite'] = true;
+        $config['file_name'] = $filename;
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if ($this->upload->do_upload('file')) {
+            $return = array('result' => 'success', 'file' => $this->upload->data(), 'error' => '');
+            return $return;
+        } else {
+            $return = array('result' => 'failed', 'file' => '', 'error' => $this->upload->display_errors());
+            return $return;
+        }
+    }
 }

@@ -1,8 +1,15 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require FCPATH . 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Pelanggan extends CI_Controller
 {
+
+	private $filename = 'upload_data_pelanggan';
 
 	public function __construct()
 	{
@@ -85,6 +92,101 @@ class Pelanggan extends CI_Controller
 				echo json_encode($response);
 			}
 		}
+	}
+
+	public function import()
+	{
+		if (isset($_POST['upload'])) {
+			$upload = $this->model_pelanggan->upload_file($this->filename);
+			if ($upload['result'] == "success") {
+				$reader			= new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+				$spreadsheet	= $reader->load('uploads/' . $this->filename . '.xlsx');
+				$sheet			= $spreadsheet->getActiveSheet()->toArray();
+
+				$insert_pelanggan = 0;
+				$update_pelanggan = 0;
+
+				$a = 'NAMA PELANGGAN';
+				$b = 'INTERNET';
+				$c = 'VOICE';
+				$d = 'ODP';
+				$e = 'PORT';
+				$f = 'SN ONT';
+				$g = 'TIPE PELANGGAN';
+				$h = 'EMAIL';
+				$i = 'NO HP';
+				$j = 'ALAMAT';
+
+				if ($a != $sheet[0][0] ||    $b != $sheet[0][1] ||    $c != $sheet[0][2] ||    $d != $sheet[0][3] ||    $e != $sheet[0][4] ||    $f != $sheet[0][5] ||    $g != $sheet[0][6] ||    $h != $sheet[0][7] ||    $i != $sheet[0][8] ||    $j != $sheet[0][9]) {
+					$this->session->set_flashdata('error', '<b>Error!</b> Format Tidak Sesuai.');
+				} else {
+					$numrow = 1;
+					foreach ($sheet as $row) {
+						if ($numrow > 1) {
+							if ($row[0] != "") {
+								$nama_pelanggan		= $row[0];
+								$internet			= $row[1];
+								$voice				= $row[2];
+								$odp				= $row[3];
+								$port				= $row[4];
+								$sn_ont 			= $row[5];
+								$tipe_pelanggan 	= $row[6];
+								$email 				= $row[7];
+								$no_hp 				= $row[8];
+								$alamat 			= $row[9];
+
+								$cek_pelanggan = $this->db->query("SELECT id_pelanggan FROM tb_pelanggan WHERE no_internet = '" . $internet . "' OR no_voice = '" . $voice . "'")->num_rows();
+								if ($cek_pelanggan <= 0) {
+									$data_pelanggan = [
+										'nama_pelanggan'	=> $nama_pelanggan,
+										'no_internet'		=> $internet,
+										'no_voice'			=> $voice,
+										'odp'     			=> $odp,
+										'port'      		=> $port,
+										'sn_ont'    		=> $sn_ont,
+										'tipe' 				=> $tipe_pelanggan,
+										'email'  			=> $email,
+										'no_hp'      		=> $no_hp,
+										'alamat'			=> $alamat
+									];
+
+									$this->model_pelanggan->insert($data_pelanggan);
+									$insert_pelanggan++;
+								} else {
+									$pelanggan = $this->db->query("SELECT id_pelanggan FROM tb_pelanggan WHERE no_internet = '" . $internet . "' OR no_voice = '" . $voice . "'")->row();
+									$data_pelanggan = [
+										'nama_pelanggan'	=> $nama_pelanggan,
+										'no_internet'		=> $internet,
+										'no_voice'			=> $voice,
+										'odp'     			=> $odp,
+										'port'      		=> $port,
+										'sn_ont'    		=> $sn_ont,
+										'tipe' 				=> $tipe_pelanggan,
+										'email'  			=> $email,
+										'no_hp'      		=> $no_hp,
+										'alamat'			=> $alamat
+									];
+
+									$this->model_pelanggan->update($pelanggan->id_pelanggan, $data_pelanggan);
+									$update_pelanggan++;
+								}
+							}
+						}
+						$numrow++;
+					}
+
+					$this->session->set_flashdata('info', '<b>Success!</b> ' . $insert_pelanggan . ' Pelanggan Baru & ' . $update_pelanggan . ' Update Pelanggan Lama');
+				}
+			} else {
+				$this->session->set_flashdata('error', '<b>Error!</b> ' . $upload['error']);
+			}
+		}
+
+		$data['title']		= 'Import Data Pelanggan';
+		$data['subtitle']	= 'Import Data Pelanggan';
+		$data['content']	= 'backend/pelanggan/import';
+
+		$this->load->view('backend/template', $data);
 	}
 
 	public function getData()
@@ -184,5 +286,11 @@ class Pelanggan extends CI_Controller
 		}
 
 		echo json_encode($response);
+	}
+
+	public function getTemplateUpload()
+	{
+		$this->load->helper('download');
+		force_download('./uploads/template/Template_Import_Data_Pelanggan.xlsx', NULL);
 	}
 }

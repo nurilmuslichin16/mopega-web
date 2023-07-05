@@ -57,8 +57,8 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
+                                                <input type="checkbox" class="custom-control-input" id="rememberMe" name="rememberMe">
+                                                <label class="custom-control-label" for="rememberMe">Remember
                                                     Me</label>
                                             </div>
                                         </div>

@@ -12,6 +12,7 @@
         </a> untuk mengahpus data pelanggan.</p>
 
     <a class="btn btn-primary mb-3 mr-2" href="#" onclick="add()"><i class="fas fa-fw fa-plus"></i>&nbspTambah Data Pelanggan</a>
+    <a class="btn btn-success mb-3 mr-2" href="<?= base_url('admin/pelanggan/import'); ?>"><i class="fas fa-fw fa-upload"></i>&nbspImport Data Pelanggan</a>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">

@@ -89,7 +89,7 @@
                 if (data.status == 2) {
                     Swal.fire(
                         'Sukses!',
-                        'Laporan gangguan berhasil dikirim, mohon ditunggu ya.',
+                        'Laporan gangguan berhasil dikirim dengan Nomor TIKET ' + data.tiket + ', mohon ditunggu ya.',
                         'success'
                     ).then(() => {
                         window.location.replace("<?= site_url('web/lapor') ?>");

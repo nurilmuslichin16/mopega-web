@@ -29,6 +29,8 @@ class Web extends CI_Controller
 		$alamat		= $this->input->post('alamat');
 		$keterangan	= $this->input->post('keterangan');
 
+		$tiket		= '';
+
 		$cekNomor 	= $this->model_pelanggan->cekNomor($nomor)->row_array();
 		if (isset($cekNomor)) {
 			$duplikatTiket	= true;
@@ -70,7 +72,9 @@ class Web extends CI_Controller
 				'ket'   	    	=> $keterangan,
 				'report_date'      	=> $report_date,
 				'booking_date'      => $booking_date,
-				'status'     		=> 0
+				'status'     		=> 0,
+				'penyebab'			=> '-',
+				'perbaikan'			=> '-'
 			];
 
 			$addData 		= $this->model_gangguan->insert($dataGangguan);
@@ -87,7 +91,8 @@ class Web extends CI_Controller
 
 			if ($updatePelanggan && $addData && $insertLog) {
 				$response	= [
-					'status' => 2
+					'status' => 2,
+					'tiket' => $tiket
 				];
 			} else {
 				$response	= [
