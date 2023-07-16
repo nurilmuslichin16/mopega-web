@@ -77,6 +77,13 @@
             <span>Data Teknisi</span></a>
     </li>
 
+    <!-- Nav Item - Tables -->
+    <li class="nav-item <?= $this->uri->segment(2) == 'odp' ? 'active' : ''; ?>">
+        <a class="nav-link" href="<?= base_url('admin/odp'); ?>">
+            <i class="fas fa-globe"></i>
+            <span>Data ODP</span></a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

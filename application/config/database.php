@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'mopega',
+	'hostname' => 'mopega.my.id',
+	'username' => 'mopegamy_admin',
+	'password' => '^Mopega*',
+	'database' => 'mopegamy_mopega',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

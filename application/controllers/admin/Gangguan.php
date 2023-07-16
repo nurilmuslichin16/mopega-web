@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
 class Gangguan extends CI_Controller
 {
 	public function __construct()
@@ -297,5 +303,45 @@ class Gangguan extends CI_Controller
 		}
 
 		$this->load->view('backend/template', $data);
+	}
+
+	public function notifEmail()
+	{
+		$mail = new PHPMailer(true);
+
+		try {
+			//Server settings
+			// $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+			$mail->isSMTP();
+			$mail->Host       = 'mail.mopega.my.id';
+			$mail->SMTPAuth   = true;
+			$mail->Username   = 'admin@mopega.my.id';
+			$mail->Password   = '^Mopega*';
+			$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+			$mail->Port       = 465;
+
+			//Recipients
+			$mail->setFrom('admin@mopega.my.id', 'Admin Mopega');
+			$mail->addAddress('nurilmuslichin16@gmail.com', 'Nuril Muslichin');
+
+			$html = 'Hai, Nuril Muslichin. <br/><br/>';
+			$html .= 'Berikut Tiket Gangguang yang sudah dilaporkan, <br/>';
+			$html .= '<b>Tiket</b> : IN3452 <br/>';
+			$html .= '<b>Keterangan</b> : ONT Mati tidak bisa koneksi internet <br/>';
+			$html .= '<b>Tanggal Lapor</b> : 2023-07-16 <br/><br/>';
+			$html .= 'Silahkan bisa cek berkala untuk mengetahui status Gangguan secara realtime, di <a href="https://mopega.my.id/web/track">Tracking Tiket Gangguan</a>. <br/><br/>';
+			$html .= 'Terimakasih.';
+
+			//Content
+			$mail->isHTML(true);                                  //Set email format to HTML
+			$mail->Subject = 'Tiket Gangguan Berhasil Dibuat';
+			$mail->Body    = $html;
+			$mail->AltBody = `Berikut Tiket Gangguan IN3452, dengan keluhan "ONT Mati tidak bisa koneksi internet" yang dilaporkan pada tanggal 2023-07-16`;
+
+			$mail->send();
+			echo 'Message has been sent';
+		} catch (Exception $e) {
+			echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+		}
 	}
 }

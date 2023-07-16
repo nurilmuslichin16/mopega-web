@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
 class Web extends CI_Controller
 {
 	public function index()
@@ -90,6 +96,8 @@ class Web extends CI_Controller
 			$insertLog		= $this->model_log->insert($dataLog);
 
 			if ($updatePelanggan && $addData && $insertLog) {
+				$this->_notifEmail($cekNomor, $dataGangguan);
+
 				$response	= [
 					'status' => 2,
 					'tiket' => $tiket
@@ -147,5 +155,49 @@ class Web extends CI_Controller
 		$data['data']		= $this->model_gangguan->historyGangguan($nomor)->result_array();
 
 		$this->load->view('frontend/template', $data);
+	}
+
+	private function _notifEmail($pelanggan, $gangguan)
+	{
+		$mail = new PHPMailer(true);
+
+		try {
+			//Server settings
+			// $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+			$mail->isSMTP();
+			$mail->Host       = 'mail.mopega.my.id';
+			$mail->SMTPAuth   = true;
+			$mail->Username   = 'admin@mopega.my.id';
+			$mail->Password   = '^Mopega*';
+			$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+			$mail->Port       = 465;
+
+			//Recipients
+			$mail->setFrom('admin@mopega.my.id', 'Admin Mopega');
+			$mail->addAddress($pelanggan['email'], $pelanggan['nama_pelanggan']);
+
+			$nama_pelanggan = $pelanggan['nama_pelanggan'];
+			$tiket			= $gangguan['tiket'];
+			$keterangan		= $gangguan['ket'];
+			$tgl_lapor		= $gangguan['report_date'];
+
+			$html = 'Hai, ' . $nama_pelanggan . '. <br/><br/>';
+			$html .= 'Berikut Tiket Gangguan yang sudah dilaporkan, <br/>';
+			$html .= '<b>Tiket</b> : ' . $tiket . ' <br/>';
+			$html .= '<b>Keterangan</b> : ' . $keterangan . ' <br/>';
+			$html .= '<b>Tanggal Lapor</b> : ' . $tgl_lapor . ' <br/><br/>';
+			$html .= 'Silahkan bisa cek berkala untuk mengetahui status Gangguan secara realtime, di <a href="https://mopega.my.id/web/track">Tracking Tiket Gangguan</a>. <br/><br/>';
+			$html .= 'Terimakasih.';
+
+			//Content
+			$mail->isHTML(true);                                  //Set email format to HTML
+			$mail->Subject = 'Tiket Gangguan Berhasil Dibuat';
+			$mail->Body    = $html;
+			$mail->AltBody = `Berikut Tiket Gangguan $tiket, dengan keluhan "$keterangan" yang dilaporkan pada tanggal $tgl_lapor`;
+
+			$mail->send();
+		} catch (Exception $e) {
+			echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+		}
 	}
 }
