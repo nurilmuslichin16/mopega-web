@@ -52,7 +52,7 @@ class Gangguan extends CI_Controller
 			$data = [
 				'teknisi'   	    => $teknisi,
 				'status'    		=> 1,
-				'send_order_at'     => date('Y-m-d H:s:i')
+				'send_order_at'     => date("Y-m-d H:i:s")
 			];
 
 			$updateData 	= $this->model_gangguan->update($id_gangguan, $data);
@@ -60,7 +60,7 @@ class Gangguan extends CI_Controller
 				'id_gangguan'	=> $id_gangguan,
 				'action'		=> 1,
 				'keterangan'	=> 'Order Gangguan berhasil dikirim ke teknisi',
-				'waktu'			=> date('Y-m-d H:s:i')
+				'waktu'			=> date("Y-m-d H:i:s")
 			]);
 
 			if ($updateData && $insertLog) {
