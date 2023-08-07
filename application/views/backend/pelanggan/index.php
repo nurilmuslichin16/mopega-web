@@ -261,7 +261,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="no_hp">No HP</label>
-                                <input type="number" class="form-control" id="no_hp" name="no_hp" placeholder="Nomor HP *">
+                                <input type="text" maxlength="14" class="form-control" id="no_hp" name="no_hp" maxlength="13" placeholder="Nomor HP *">
                                 <small class="mt-3 text-danger" id="error"></small>
                             </div>
                             <div class="form-group">
@@ -273,12 +273,12 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="internet">Nomor Internet</label>
-                                <input type="number" class="form-control" id="internet" name="internet" placeholder="Nomor Internet *">
+                                <input type="text" maxlength="14" class="form-control" id="internet" name="internet" maxlength="13" placeholder="Nomor Internet *">
                                 <small class="mt-3 text-danger" id="error"></small>
                             </div>
                             <div class="form-group">
                                 <label for="telepon">Nomor Telepon</label>
-                                <input type="number" class="form-control" id="telepon" name="telepon" placeholder="Nomor Telepon *">
+                                <input type="text" maxlength="14" class="form-control" id="telepon" name="telepon" maxlength="10" placeholder="Nomor Telepon *">
                                 <small class="mt-3 text-danger" id="error"></small>
                             </div>
                             <div class="form-group">
@@ -288,12 +288,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="port">Port</label>
-                                <input type="number" class="form-control" id="port" name="port" placeholder="Nomor Port *">
+                                <input type="number" maxlength="2" class="form-control" id="port" name="port" placeholder="Nomor Port *">
                                 <small class="mt-3 text-danger" id="error"></small>
                             </div>
                             <div class="form-group">
                                 <label for="sn">Serial Number ONT</label>
-                                <input type="text" class="form-control" id="sn" name="sn" placeholder="Serial Number *">
+                                <input type="text" class="form-control" id="sn" name="sn" maxlength="15" placeholder="Serial Number *">
                                 <small class="mt-3 text-danger" id="error"></small>
                             </div>
                         </div>

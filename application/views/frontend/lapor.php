@@ -17,7 +17,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <!-- Name input-->
-                        <input class="form-control" id="nomor" name="nomor" type="text" placeholder="Nomor Telepon / Internet *" data-sb-validations="required" />
+                        <input class="form-control" id="nomor" name="nomor" maxlength=14 type="text" placeholder="Nomor Telepon / Internet *" data-sb-validations="required" />
                         <div class="invalid-feedback" data-sb-feedback="nomor:required">Nomor wajib di isi.</div>
                     </div>
                     <div class="form-group">

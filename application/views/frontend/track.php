@@ -17,7 +17,7 @@
                 <div class="col-md-6">
                     <div class="form-group mb-md-0">
                         <!-- Phone number input-->
-                        <input class="form-control" id="tiket" name="tiket" type="text" placeholder="Nomor Tiket *" data-sb-validations="required" />
+                        <input class="form-control" id="tiket" name="tiket" maxlength=8 type="text" placeholder="Nomor Tiket *" data-sb-validations="required" />
                         <div class="invalid-feedback" data-sb-feedback="tiket:required">Nomor Tiket wajib di isi.</div>
                     </div>
                 </div>
