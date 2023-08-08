@@ -28,21 +28,21 @@
                     </thead>
                     <tbody>
                         <?php foreach ($listData as $data) : ?>
-                        <tr>
-                            <td><?= $data['nik']; ?></td>
-                            <td><?= $data['nama_teknisi']; ?></td>
-                            <td><?= $data['mitra']; ?></td>
-                            <td><?= statusTeknisi($data['status']); ?></td>
-                            <td>
-                                <a href="#" onclick="edit(<?= $data['id_telegram']; ?>)" class="btn btn-warning btn-circle btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                &nbsp;
-                                <a href="#" onclick="hapus(<?= $data['id_telegram']; ?>)" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td><?= $data['nik']; ?></td>
+                                <td><?= $data['nama_teknisi']; ?></td>
+                                <td><?= $data['mitra']; ?></td>
+                                <td><?= statusTeknisi($data['status']); ?></td>
+                                <td>
+                                    <a href="#" onclick="edit(<?= $data['id_telegram']; ?>)" class="btn btn-warning btn-circle btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <!-- &nbsp;
+                                    <a href="#" onclick="hapus(<?= $data['id_telegram']; ?>)" class="btn btn-danger btn-circle btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a> -->
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -55,6 +55,8 @@
 
 <script>
     $(document).ready(function() {
+        $('#dataTable').DataTable();
+
         $("#formDataTeknisi").submit(function(e) {
             e.preventDefault();
         });

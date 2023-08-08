@@ -27,7 +27,7 @@ class Gangguan extends CI_Controller
 		$data['subtitle']		= 'Daftar Laporan Gangguan';
 		$data['content']		= 'backend/gangguan/index';
 		$data['listData']		= $this->model_gangguan->get_all()->result_array();
-		$data['listTeknisi']	= $this->model_teknisi->get_all()->result_array();
+		$data['listTeknisi']	= $this->model_teknisi->get_all_active()->result_array();
 
 		$this->load->view('backend/template', $data);
 	}
@@ -186,7 +186,7 @@ class Gangguan extends CI_Controller
 			)
 		);
 
-		$excel->setActiveSheetIndex(0)->setCellValue('A1', "DATA DOKTER");
+		$excel->setActiveSheetIndex(0)->setCellValue('A1', "DATA LAPORAN GANGGUAN WITEL PEKALONGAN");
 		$excel->getActiveSheet()->mergeCells('A1:M1');
 		$excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE);
 		$excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(15);

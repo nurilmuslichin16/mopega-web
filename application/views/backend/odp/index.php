@@ -38,10 +38,10 @@
                                     <a href="#" onclick="edit(<?= $data['id_odp']; ?>)" class="btn btn-warning btn-circle btn-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    &nbsp;
+                                    <!-- &nbsp;
                                     <a href="#" onclick="hapus(<?= $data['id_odp']; ?>)" class="btn btn-danger btn-circle btn-sm">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </a> -->
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -58,6 +58,8 @@
     var method;
 
     $(document).ready(function() {
+        $('#dataTable').DataTable();
+
         $("#formTambahDataODP").submit(function(e) {
             e.preventDefault();
         });

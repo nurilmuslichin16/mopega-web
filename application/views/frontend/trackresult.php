@@ -1,7 +1,7 @@
 <!-- About-->
 <section class="page-section" id="about">
     <?php if (isset($info)) { ?>
-        <div class="container">
+        <div class="container" style="zoom: 50%;">
             <div class="text-center">
                 <h2 class="section-heading text-uppercase">Tiket <?= $info['tiket']; ?></h2>
                 <h3 class="section-subheading text-muted"><?= $info['nama_pelanggan']; ?> || <?= $info['no_internet']; ?> - <?= $info['no_voice']; ?> || <?= $info['ket']; ?>.</h3>

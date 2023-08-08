@@ -10,6 +10,7 @@ class Model_gangguan extends CI_Model
         $this->db->select('*');
         $this->db->from($this->table);
         $this->db->join('tb_pelanggan', 'tb_pelanggan.id_pelanggan = tb_gangguan.id_pelanggan');
+        $this->db->order_by('report_date', 'DESC');
         $query = $this->db->get();
 
         // Return hasil query

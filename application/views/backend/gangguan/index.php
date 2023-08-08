@@ -36,8 +36,8 @@
                                 <td><?= $data['tiket']; ?></td>
                                 <td><?= $data['no_internet'] ?? '-'; ?> / <?= $data['no_voice'] ?? '-'; ?></td>
                                 <td><?= tipe($data['tipe']); ?></td>
-                                <td><?= $data['report_date']; ?></td>
-                                <td><?= expired($data['booking_date']); ?></td>
+                                <td><?= date_indo_jam($data['report_date']); ?></td>
+                                <td><?= expired(date_indo_jam($data['booking_date'])); ?></td>
                                 <td><?= status($data['status']); ?></td>
                                 <td>
                                     <a href="#" onclick="followUp(<?= $data['id_gangguan']; ?>)" class="btn btn-primary btn-circle btn-sm">
@@ -47,10 +47,10 @@
                                     <a href="<?= base_url('admin/gangguan/detail/' . $data['id_gangguan']); ?>" class="btn btn-info btn-circle btn-sm">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
-                                    &nbsp;
+                                    <!-- &nbsp;
                                     <a href="#" onclick="hapus(<?= $data['id_gangguan']; ?>)" class="btn btn-danger btn-circle btn-sm">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </a> -->
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -100,6 +100,10 @@
 
 <script>
     $(document).ready(function() {
+        $('#dataTable').DataTable({
+            order: []
+        });
+
         $("#formFollowUp").submit(function(e) {
             e.preventDefault();
         });

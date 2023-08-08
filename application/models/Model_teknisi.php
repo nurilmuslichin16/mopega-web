@@ -13,6 +13,16 @@ class Model_teknisi extends CI_Model
         return $query;
     }
 
+    public function get_all_active()
+    {
+        // Jalankan query
+        $this->db->where('status', 1);
+        $query = $this->db->get($this->table);
+
+        // Return hasil query
+        return $query;
+    }
+
     public function get_where($where)
     {
         // Jalankan query

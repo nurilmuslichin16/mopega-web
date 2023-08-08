@@ -39,7 +39,7 @@
 <script src="<?= base_url('assets/backend/vendor/datatables/dataTables.bootstrap4.min.js'); ?>"></script>
 
 <!-- Page level custom scripts -->
-<script src="<?= base_url('assets/backend/js/demo/datatables-demo.js'); ?>"></script>
+<!-- <script src="<?= base_url('assets/backend/js/demo/datatables-demo.js'); ?>"></script> -->
 
 <!-- Page level plugins -->
 <!-- <script src="<?= base_url('assets/backend/vendor/chart.js/Chart.min.js'); ?>"></script> -->
