@@ -41,8 +41,8 @@
                     <div style="height: 10px;"></div>
                     <div class="form-group form-group-textarea mb-md-0" style="height: 40%;">
                         <!-- Message input-->
-                        <textarea class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan *" data-sb-validations="required"></textarea>
-                        <div class="invalid-feedback" data-sb-feedback="keterangan:required">Keterangan wajib di isi.</div>
+                        <textarea class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan Gangguan *" data-sb-validations="required"></textarea>
+                        <div class="invalid-feedback" data-sb-feedback="keterangan:required">Keterangan Gangguan wajib di isi.</div>
                     </div>
                 </div>
             </div>

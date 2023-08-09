@@ -7,9 +7,7 @@
             <i class="fas fa-info-circle"></i>
         </a> untuk melihat detail informasi pelanggan. || Tombol <b>Edit</b> <a href="#" class="btn btn-warning btn-circle btn-sm">
             <i class="fas fa-edit"></i>
-        </a> untuk mengubah data pelanggan. || Tombol <b>Hapus</b> <a href="#" class="btn btn-danger btn-circle btn-sm">
-            <i class="fas fa-trash"></i>
-        </a> untuk mengahpus data pelanggan.</p>
+        </a> untuk mengubah data pelanggan.</p>
 
     <a class="btn btn-primary mb-3 mr-2" href="#" onclick="add()"><i class="fas fa-fw fa-plus"></i>&nbspTambah Data Pelanggan</a>
     <a class="btn btn-success mb-3 mr-2" href="<?= base_url('admin/pelanggan/import'); ?>"><i class="fas fa-fw fa-upload"></i>&nbspImport Data Pelanggan</a>
@@ -152,6 +150,9 @@
                 $('#email').val(data.email);
                 $('#no_hp').val(data.no_hp);
                 $('#alamat').val(data.alamat);
+                $('#kota_kab').val(data.kota_kab);
+                $('#kec').val(data.kec);
+                $('#kel').val(data.kel);
                 $('#internet').val(data.no_internet);
                 $('#telepon').val(data.no_voice);
                 $('#odp').val(data.odp);
@@ -247,16 +248,6 @@
                                 <small class="mt-3 text-danger" id="error"></small>
                             </div>
                             <div class="form-group">
-                                <label for="tipe">Tipe Pelanggan</label>
-                                <select class="form-control" id="tipe" name="tipe">
-                                    <option value="">Pilih Layanan</option>
-                                    <option value="Indihome">Indihome</option>
-                                    <option value="BGES / VPN IP">BGES / VPN IP</option>
-                                    <option value="WIFI ID">WIFI ID</option>
-                                </select>
-                                <small class="mt-3 text-danger" id="error"></small>
-                            </div>
-                            <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Email *">
                                 <small class="mt-3 text-danger" id="error"></small>
@@ -267,12 +258,37 @@
                                 <small class="mt-3 text-danger" id="error"></small>
                             </div>
                             <div class="form-group">
+                                <label for="kota_kab">Kota / Kabupaten</label>
+                                <input type="text" class="form-control" id="kota_kab" name="kota_kab" placeholder="Kota / Kab *">
+                                <small class="mt-3 text-danger" id="error"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="kec">Kecamatan</label>
+                                <input type="text" class="form-control" id="kec" name="kec" placeholder="Kecamatan *">
+                                <small class="mt-3 text-danger" id="error"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="kel">Kelurahan</label>
+                                <input type="text" class="form-control" id="kel" name="kel" placeholder="Kelurahan *">
+                                <small class="mt-3 text-danger" id="error"></small>
+                            </div>
+                            <div class="form-group">
                                 <label for="alamat">Alamat</label>
                                 <textarea type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat *"></textarea>
                                 <small class="mt-3 text-danger" id="error"></small>
                             </div>
                         </div>
                         <div class="col-6">
+                            <div class="form-group">
+                                <label for="tipe">Tipe Pelanggan</label>
+                                <select class="form-control" id="tipe" name="tipe">
+                                    <option value="">Pilih Layanan</option>
+                                    <option value="Indihome">Indihome</option>
+                                    <option value="BGES / VPN IP">BGES / VPN IP</option>
+                                    <option value="WIFI ID">WIFI ID</option>
+                                </select>
+                                <small class="mt-3 text-danger" id="error"></small>
+                            </div>
                             <div class="form-group">
                                 <label for="internet">Nomor Internet</label>
                                 <input type="text" maxlength="14" class="form-control" id="internet" name="internet" maxlength="13" placeholder="Nomor Internet *">

@@ -7,9 +7,7 @@
             <i class="fab fa-telegram"></i>
         </a> untuk mengirim order ke teknisi. || Tombol <b>Info</b> <a href="#" class="btn btn-info btn-circle btn-sm">
             <i class="fas fa-info-circle"></i>
-        </a> untuk melihat detail informasi gangguan. || Tombol <b>Hapus</b> <a href="#" class="btn btn-danger btn-circle btn-sm">
-            <i class="fas fa-trash"></i>
-        </a> untuk mengahpus order gangguan.</p>
+        </a> untuk melihat detail informasi gangguan.</p>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">

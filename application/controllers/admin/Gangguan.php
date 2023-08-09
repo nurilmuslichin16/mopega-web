@@ -327,7 +327,7 @@ class Gangguan extends CI_Controller
 			$html = 'Hai, Nuril Muslichin. <br/><br/>';
 			$html .= 'Berikut Tiket Gangguang yang sudah dilaporkan, <br/>';
 			$html .= '<b>Tiket</b> : IN3452 <br/>';
-			$html .= '<b>Keterangan</b> : ONT Mati tidak bisa koneksi internet <br/>';
+			$html .= '<b>Keterangan Gangguan</b> : ONT Mati tidak bisa koneksi internet <br/>';
 			$html .= '<b>Tanggal Lapor</b> : 2023-07-16 <br/><br/>';
 			$html .= 'Silahkan bisa cek berkala untuk mengetahui status Gangguan secara realtime, di <a href="https://mopega.my.id/web/track">Tracking Tiket Gangguan</a>. <br/><br/>';
 			$html .= 'Terimakasih.';

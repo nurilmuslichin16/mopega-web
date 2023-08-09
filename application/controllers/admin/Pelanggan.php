@@ -37,6 +37,9 @@ class Pelanggan extends CI_Controller
 		$this->form_validation->set_rules('tipe', 'Tipe', 'required');
 		$this->form_validation->set_rules('email', 'Email', 'required');
 		$this->form_validation->set_rules('no_hp', 'No HP', 'required');
+		$this->form_validation->set_rules('kota_kab', 'Kota / Kab', 'required');
+		$this->form_validation->set_rules('kec', 'Kecamatan', 'required');
+		$this->form_validation->set_rules('kel', 'Kelurahan', 'required');
 		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
 		$this->form_validation->set_rules('internet', 'Internet', 'required|is_unique[tb_pelanggan.no_internet]', ['is_unique' => 'Internet sudah ada!']);
 		$this->form_validation->set_rules('telepon', 'Telepon', 'required|is_unique[tb_pelanggan.no_voice]', ['is_unique' => 'Voice sudah ada!']);
@@ -52,6 +55,9 @@ class Pelanggan extends CI_Controller
 					'tipe'              => form_error('tipe', ' ', ' '),
 					'email'             => form_error('email', ' ', ' '),
 					'no_hp'             => form_error('no_hp', ' ', ' '),
+					'kota_kab'          => form_error('kota_kab', ' ', ' '),
+					'kec'            	=> form_error('kec', ' ', ' '),
+					'kel'            	=> form_error('kel', ' ', ' '),
 					'alamat'            => form_error('alamat', ' ', ' '),
 					'internet'          => form_error('internet', ' ', ' '),
 					'telepon'           => form_error('telepon', ' ', ' '),
@@ -68,6 +74,9 @@ class Pelanggan extends CI_Controller
 				'tipe'          	=> $this->input->post('tipe'),
 				'email'   	    	=> $this->input->post('email'),
 				'no_hp'      		=> $this->input->post('no_hp'),
+				'kota_kab'     		=> $this->input->post('kota_kab'),
+				'kec'     			=> $this->input->post('kec'),
+				'kel'     			=> $this->input->post('kel'),
 				'alamat'     		=> $this->input->post('alamat'),
 				'no_internet'      	=> $this->input->post('internet'),
 				'no_voice'       	=> $this->input->post('telepon'),
@@ -115,9 +124,12 @@ class Pelanggan extends CI_Controller
 				$g = 'TIPE PELANGGAN';
 				$h = 'EMAIL';
 				$i = 'NO HP';
-				$j = 'ALAMAT';
+				$j = 'KOTA / KAB';
+				$k = 'KECAMATAN';
+				$l = 'KELURAHAN';
+				$m = 'ALAMAT';
 
-				if ($a != $sheet[0][0] ||    $b != $sheet[0][1] ||    $c != $sheet[0][2] ||    $d != $sheet[0][3] ||    $e != $sheet[0][4] ||    $f != $sheet[0][5] ||    $g != $sheet[0][6] ||    $h != $sheet[0][7] ||    $i != $sheet[0][8] ||    $j != $sheet[0][9]) {
+				if ($a != $sheet[0][0] ||    $b != $sheet[0][1] ||    $c != $sheet[0][2] ||    $d != $sheet[0][3] ||    $e != $sheet[0][4] ||    $f != $sheet[0][5] ||    $g != $sheet[0][6] ||    $h != $sheet[0][7] ||    $i != $sheet[0][8] ||    $j != $sheet[0][9] ||    $k != $sheet[0][10] ||    $l != $sheet[0][11] ||    $m != $sheet[0][12]) {
 					$this->session->set_flashdata('error', '<b>Error!</b> Format Tidak Sesuai.');
 				} else {
 					$numrow = 1;
@@ -133,7 +145,10 @@ class Pelanggan extends CI_Controller
 								$tipe_pelanggan 	= $row[6];
 								$email 				= $row[7];
 								$no_hp 				= $row[8];
-								$alamat 			= $row[9];
+								$kota_kab 			= $row[9];
+								$kec 				= $row[10];
+								$kel 				= $row[11];
+								$alamat 			= $row[12];
 
 								$cek_pelanggan = $this->db->query("SELECT id_pelanggan FROM tb_pelanggan WHERE no_internet = '" . $internet . "' OR no_voice = '" . $voice . "'")->num_rows();
 								if ($cek_pelanggan <= 0) {
@@ -147,6 +162,9 @@ class Pelanggan extends CI_Controller
 										'tipe' 				=> $tipe_pelanggan,
 										'email'  			=> $email,
 										'no_hp'      		=> $no_hp,
+										'kota_kab'      	=> $kota_kab,
+										'kec'      			=> $kec,
+										'kel'      			=> $kel,
 										'alamat'			=> $alamat
 									];
 
@@ -164,6 +182,9 @@ class Pelanggan extends CI_Controller
 										'tipe' 				=> $tipe_pelanggan,
 										'email'  			=> $email,
 										'no_hp'      		=> $no_hp,
+										'kota_kab'      	=> $kota_kab,
+										'kec'      			=> $kec,
+										'kel'      			=> $kel,
 										'alamat'			=> $alamat
 									];
 
@@ -203,6 +224,9 @@ class Pelanggan extends CI_Controller
 		$this->form_validation->set_rules('tipe', 'Tipe', 'required');
 		$this->form_validation->set_rules('email', 'Email', 'required');
 		$this->form_validation->set_rules('no_hp', 'No HP', 'required');
+		$this->form_validation->set_rules('kota_kab', 'Kota / Kab', 'required');
+		$this->form_validation->set_rules('kec', 'Kecamatan', 'required');
+		$this->form_validation->set_rules('kel', 'Kelurahan', 'required');
 		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
 		$this->form_validation->set_rules('internet', 'Internet', 'required');
 		$this->form_validation->set_rules('telepon', 'Telepon', 'required');
@@ -218,6 +242,9 @@ class Pelanggan extends CI_Controller
 					'tipe'              => form_error('tipe', ' ', ' '),
 					'email'             => form_error('email', ' ', ' '),
 					'no_hp'             => form_error('no_hp', ' ', ' '),
+					'kota_kab'          => form_error('kota_kab', ' ', ' '),
+					'kec'            	=> form_error('kec', ' ', ' '),
+					'kel'            	=> form_error('kel', ' ', ' '),
 					'alamat'            => form_error('alamat', ' ', ' '),
 					'internet'          => form_error('internet', ' ', ' '),
 					'telepon'           => form_error('telepon', ' ', ' '),
@@ -234,6 +261,9 @@ class Pelanggan extends CI_Controller
 				'tipe'          	=> $this->input->post('tipe'),
 				'email'   	    	=> $this->input->post('email'),
 				'no_hp'      		=> $this->input->post('no_hp'),
+				'kota_kab'     		=> $this->input->post('kota_kab'),
+				'kec'     			=> $this->input->post('kec'),
+				'kel'     			=> $this->input->post('kel'),
 				'alamat'     		=> $this->input->post('alamat'),
 				'no_internet'      	=> $this->input->post('internet'),
 				'no_voice'       	=> $this->input->post('telepon'),

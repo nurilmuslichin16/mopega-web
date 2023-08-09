@@ -3,13 +3,9 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800"><?= $subtitle; ?></h1>
-    <p class="mb-4">Tombol <b>Info</b> <a href="#" class="btn btn-info btn-circle btn-sm">
-            <i class="fas fa-info-circle"></i>
-        </a> untuk melihat detail informasi ODP. || Tombol <b>Edit</b> <a href="#" class="btn btn-warning btn-circle btn-sm">
+    <p class="mb-4">Tombol <b>Edit</b> <a href="#" class="btn btn-warning btn-circle btn-sm">
             <i class="fas fa-edit"></i>
-        </a> untuk mengubah data ODP. || Tombol <b>Hapus</b> <a href="#" class="btn btn-danger btn-circle btn-sm">
-            <i class="fas fa-trash"></i>
-        </a> untuk mengahpus data ODP.</p>
+        </a> untuk mengubah data ODP.</p>
 
     <a class="btn btn-primary mb-3 mr-2" href="#" onclick="add()"><i class="fas fa-fw fa-plus"></i>&nbspTambah Data ODP</a>
     <a class="btn btn-success mb-3 mr-2" href="<?= base_url('admin/odp/import'); ?>"><i class="fas fa-fw fa-upload"></i>&nbspImport Data ODP</a>

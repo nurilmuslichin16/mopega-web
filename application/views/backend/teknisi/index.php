@@ -5,9 +5,7 @@
     <h1 class="h3 mb-2 text-gray-800"><?= $subtitle; ?></h1>
     <p class="mb-4">Tombol <b>Edit</b> <a href="#" class="btn btn-warning btn-circle btn-sm">
             <i class="fas fa-edit"></i>
-        </a> untuk mengubah data teknisi. || Tombol <b>Hapus</b> <a href="#" class="btn btn-danger btn-circle btn-sm">
-            <i class="fas fa-trash"></i>
-        </a> untuk mengahpus data teknisi.</p>
+        </a> untuk mengubah data teknisi.</p>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
